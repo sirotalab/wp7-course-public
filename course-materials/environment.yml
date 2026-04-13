@@ -1,0 +1,9 @@
+name: wp7
+# Placeholder — replace with `mamba env export -n wp7 > environment.yml`
+# before shipping to the 2026 cohort. The canonical env lives at
+# /storage/share/python/environments/Anaconda3/envs/wp7 on HPC.
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pip

@@ -1,0 +1,45 @@
+site_name: WP7 — Neural Data Analysis
+site_description: MSc Neuroscience practicum course at LMU (Sirota / Mlynarski)
+site_url: https://example.gitlab.io/wp7-course/
+docs_dir: docs
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - search.suggest
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Schedule: schedule.md
+  - Setup:
+      - SSH: setup/ssh.md
+      - VS Code Remote: setup/vscode.md
+      - Conda environment: setup/conda.md
+      - HPC workspace: setup/workspace.md
+  - Lectures: lectures.md
+  - Exercises:
+      - Overview: exercises/index.md
+      - Ex1 — Bootstrap: exercises/ex1.md
+      - Ex2 — Dimensionality reduction: exercises/ex2.md
+      - Ex3 — Univariate spectral analysis: exercises/ex3.md
+      - Ex4 — Time-resolved spectral analysis: exercises/ex4.md
+      - Ex5 — Bivariate spectral analysis: exercises/ex5.md
+  - Submissions: submissions.md
