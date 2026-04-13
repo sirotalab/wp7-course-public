@@ -1,6 +1,6 @@
 site_name: WP7 — Neural Data Analysis
 site_description: MSc Neuroscience practicum course at LMU (Sirota / Mlynarski)
-site_url: https://example.gitlab.io/wp7-course/
+site_url: https://sirotalab.gitlab.io/wp7-course-public/
 docs_dir: docs
 
 theme:
