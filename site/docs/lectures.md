@@ -1,5 +1,9 @@
 # Lectures
 
+On HPC the slide PDFs live at `/storage2/wp7/course-materials/lectures/`. Off
+HPC you can `datalad get` them after cloning the course (see
+[HPC workspace](setup/workspace.md)).
+
 ## Mlynarski (weeks 1–5)
 
 !!! warning "TBD"
@@ -7,11 +11,23 @@
 
 ## Sirota (weeks 6–10)
 
-Six PDFs, grouped by topic. On HPC they live at
-`/storage2/wp7/course-materials/lectures/sirota/`.
+### Dimensionality reduction
 
-- **Dimensionality reduction** (3 parts)
-- **Spectral analysis** (3 parts)
+| Part | File |
+|---|---|
+| I — Foundations (2023) | `course-materials/lectures/sirota/DimReduction_1_2023.pdf` |
+| II — Blind source separation | `course-materials/lectures/sirota/DimReduction_BSS.pdf` |
+| III — Nonlinear methods | `course-materials/lectures/sirota/DimReduction_Nonlinear.pdf` |
 
-A flat list with the actual file names will be added after the Phase 3
-seeding step.
+### Spectral analysis
+
+| Part | File |
+|---|---|
+| I (2023) | `course-materials/lectures/sirota/SpectralAnalysis_1_2023.pdf` |
+| II (2023) | `course-materials/lectures/sirota/SpectralAnalysis_2_2023.pdf` |
+| III (2023) | `course-materials/lectures/sirota/SpectralAnalysis_3_2023.pdf` |
+
+!!! note "Year tag"
+    The `_2023` tag reflects the year the slides were last revised, not the
+    cohort. The 2026 lectures will use the same PDFs unless Anton updates
+    them before the course starts.

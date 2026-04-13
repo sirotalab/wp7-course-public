@@ -1,0 +1,33 @@
+# GitLab CI — build the WP7 course site and publish it via GitLab Pages.
+#
+# Layout:
+#   ./site/                 mkdocs source (docs_dir = site/docs)
+#   ./course-materials/     student-downloadable files (not served via Pages)
+#
+# Pages serves whatever the `pages` job writes to `./public/` at artifact time.
+
+image: python:3.11-slim
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  key: pip-mkdocs
+  paths:
+    - .cache/pip
+
+pages:
+  stage: deploy
+  before_script:
+    - pip install --upgrade pip
+    - pip install mkdocs mkdocs-material
+  script:
+    - cd site
+    - mkdocs build --site-dir ../public
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+    - if: $CI_COMMIT_BRANCH == "main"
