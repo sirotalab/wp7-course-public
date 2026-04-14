@@ -1,5 +1,5 @@
-site_name: WP7 — Neural Data Analysis
-site_description: MSc Neuroscience practicum course at LMU (Sirota / Mlynarski)
+site_name: WP7 — Machine Learning & Analysis of Neural Data
+site_description: GSN practicum course (Sirota / Mlynarski)
 site_url: https://sirotalab.gitlab.io/wp7-course-public/
 docs_dir: docs
 
@@ -28,9 +28,11 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - Quick start: quickstart.md
   - Schedule: schedule.md
   - Setup:
       - SSH: setup/ssh.md
+      - Interactive SSH tool: tools/ssh-setup.html
       - VS Code Remote: setup/vscode.md
       - Conda environment: setup/conda.md
       - HPC workspace: setup/workspace.md
