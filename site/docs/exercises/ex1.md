@@ -1,16 +1,26 @@
 # Exercise 1 — Bootstrap
 
-**Files**: `course-materials/exercises/ex1-bootstrap/`
+Build confidence intervals and test hypotheses using resampling — no parametric assumptions required. You'll work with real V1 spike-train data from the CRCNS PVC-8 dataset.
 
-- `ex1.pdf` — prompt (Anton)
-- `starter.ipynb` — scaffolded notebook
-- `README.md` — data pointers + hints
+## At a glance
 
-## Topic
+| | |
+|---|---|
+| **Directory** | `course-materials/exercises/ex1-bootstrap/` |
+| **Data** | `sourcedata/data/crcns_pvc8/2.mat` (V1 spike times) |
+| **Packages** | numpy, scipy.stats, matplotlib, tqdm |
+| **Helper module** | — (none needed) |
+| **Prereqs** | Basic probability and statistics |
+| **Deadline** | TBD — see [Schedule](../schedule.md) |
 
-Resampling-based inference: the bootstrap and its application to
-confidence intervals on summary statistics.
+## First steps
 
-## Deadline
+```bash
+conda activate wp7
+mkdir -p ~/<slug>/ex1 && cd ~/<slug>/ex1
+cp /storage2/wp7/course-materials/exercises/ex1-bootstrap/starter.ipynb ex1_<slug>.ipynb
+```
 
-TBD — see [Schedule](../schedule.md).
+Open the notebook and read the header cell for objectives. The [README](https://github.com) in the exercise directory has data-loading tips and further hints.
+
+For the full exercise description, see `ex1.pdf` in the same directory.
