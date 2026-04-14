@@ -13,7 +13,7 @@ for modern analyses of inter-areal communication in systems neuroscience.
 ## Files in this directory
 
 - `ex5.pdf` — the exercise prompt (authored by Anton Sirota)
-- `starter.ipynb` — scaffolded notebook (TBD — pending Anton's 2025/2026 updates; see `planning/`)
+- `starter.ipynb` — scaffolded Neuromatch-style notebook
 - `README.md` — this file
 
 ## Data
@@ -64,3 +64,11 @@ lfps = scipy.io.loadmat('path/to/ws_data_1shank.mat')['lfps']
 - [Submissions](../../../site/docs/submissions.md) — filename convention
 - `lib/wp7_helpers.py` — `coherence`, `cross_spectrum`, `psd_multitaper`
 - `lib/mtcsd.py` — full multitaper cross-spectral density matrix (all pairs)
+
+## Advanced: 96-channel dataset
+
+The SS25 Exercise 10 notebook uses a richer 96-channel dataset (`data96.mat`,
+42 MB) and a combined LFP+spikes file (`Lfp_and_Spikes.mat`, 116 MB).  Both are
+available in `sourcedata/moodle/ss25-public/.../Exercise_10/` and in
+`/storage2/arash/sirocampus/data/ds-wp7/data96.mat`.  Channel maps:
+`ChannelMap96.png`, `PlotMap96.py` (same folder).
