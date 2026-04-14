@@ -1,7 +1,66 @@
-# Exercise 4 — Time-resolved spectral analysis
+# Exercise 4 — Time-Resolved Spectral Analysis
 
-- **Prompt**: `ex4.pdf`
-- **Starter notebook**: TBD
-- **Helpers**: `../../lib/mtcsd.py`
+## Topic
 
-See also the [exercises overview](../../../site/docs/exercises/ex4.md).
+Multitaper spectrograms reveal how neural oscillation power evolves over time.
+Unlike a single PSD estimate (Ex3), a spectrogram slides a short analysis window
+across the recording and computes the PSD of each window, producing a
+time–frequency representation.  You will learn how window length and overlap
+govern the time–frequency resolution trade-off, and apply spectrogram analysis
+to detect transient oscillatory events (e.g., hippocampal sharp-wave ripples or
+theta bursts) in LFP data.
+
+## Files in this directory
+
+- `ex4.pdf` — the exercise prompt (authored by Anton Sirota)
+- `starter.ipynb` — scaffolded notebook (TBD — pending Anton's 2025/2026 updates; see `planning/`)
+- `README.md` — this file
+
+## Data
+
+16-channel hippocampal LFP recordings from the ds-wp7 dataset:
+
+```
+/storage2/arash/sirocampus/data/ds-wp7/ws_data_1shank.mat
+```
+
+Variable `lfps`, shape `(n_samples, 16)`, sampling rate **1250 Hz**.
+(Same data as Ex3.)
+
+```python
+import scipy.io
+lfps = scipy.io.loadmat('path/to/ws_data_1shank.mat')['lfps']
+```
+
+## Prerequisites
+
+- **Lectures** (from `lectures/sirota/`):
+  - `SpectralAnalysis_1_2023.pdf` — Fourier and Welch basics
+  - `SpectralAnalysis_2_2023.pdf` — multitaper theory
+  - `SpectralAnalysis_3_2023.pdf` — time-resolved spectral analysis
+- **Previous exercises**: Ex3 (univariate PSD) — Ex4 extends Ex3 to the
+  time-resolved case; make sure you understand `psd_multitaper` first.
+- **Packages**: `numpy`, `scipy`, `matplotlib`, `lib/wp7_helpers.py`
+  (specifically `wp7_helpers.spectrogram_multitaper`)
+
+## Tips
+
+- `wp7_helpers.spectrogram_multitaper(x, fs, window_sec, overlap)` returns
+  `(freqs, times, S)` where `S` has shape `(n_freqs, n_times)` — ready to plot
+  with `plt.pcolormesh(times, freqs, S)`.
+- Window length is the fundamental trade-off: shorter windows (e.g., 0.2 s) give
+  fine time resolution but blurry frequency resolution; longer windows (1–2 s)
+  resolve individual oscillatory frequencies but smear transient events.
+- Visualise the spectrogram on a log power scale (`np.log10(S)` or `10 * np.log10(S)`)
+  to compress the dynamic range.
+- Theta (~8 Hz) and ripple (~150 Hz) bands should be visible as horizontal
+  bands of elevated power; their temporal modulation is the story.
+- For display, limit the frequency axis to a relevant range (e.g., 1–200 Hz)
+  and the color scale to avoid a few high-power bins dominating the colormap.
+
+## Also see
+
+- Site page: [exercises/ex4](../../site/docs/exercises/ex4.md)
+- [Submissions](../../../site/docs/submissions.md) — filename convention
+- `lib/wp7_helpers.py` — `spectrogram_multitaper` and `psd_multitaper`
+- `lib/mtcsd.py` — multitaper cross-spectral density (all channel pairs)
