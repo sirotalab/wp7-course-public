@@ -1,47 +1,43 @@
 # HPC workspace
 
-Everything course-related lives under `/storage2/wp7/` on the HPC.
+## Your shared HPC login
 
-## Read-only: course materials
+You log in as `ephysNN` — a pooled account shared with a few classmates. Which one is yours? Check the [interactive SSH tool](../tools/ssh-setup.html) or the [quick-start lookup](../quickstart.md).
 
-```
-/storage2/wp7/course-materials/
-├── environment.yml           # conda env spec
-├── lectures/                 # lecture slide PDFs
-├── exercises/                # problem sets (prompts + starter notebooks)
-├── notebooks/                # reference/exploratory notebooks
-└── lib/                      # shared helper modules
-```
+## Your personal workspace
 
-This directory is read-only. You should never need to write there — copy
-any file you want to modify into your own work area first.
-
-## Your work area
-
-You work under a per-student subdirectory inside your pooled login:
+Each student gets a directory at:
 
 ```
-/storage2/wp7/students/2026/ephys<NN>/<your-name>/
+/storage2/wp7/<slug>/
 ```
 
-**Why per-student subdirs?** Multiple students share each `ephysNN` pooled
-account, so filesystem ownership does not identify you. The
-`<your-name>/` subdir is the convention that keeps your work separate
-from your roommate's.
+where `<slug>` is your name in `firstname-lastname` form (e.g. `alice-abel`).
 
-**Don't touch other people's directories.** Even though permissions may
-allow it, treat `/storage2/wp7/students/2026/ephys<NN>/<someone-else>/`
-as off-limits.
-
-## Off-HPC: datalad clone
-
-If you'd rather work on your own laptop, you can clone the course materials:
+A convenience symlink is already set up in your ephys home, so:
 
 ```bash
-datalad clone <clone-url-TBD> wp7-course-public
-cd wp7-course-public
-datalad get course-materials/exercises/ex1-bootstrap/
+cd ~/<slug>
 ```
 
-!!! warning "Clone URL pending"
-    The RIA clone URL will be posted here once the sibling is configured.
+drops you straight into `/storage2/wp7/<slug>/`. That's your home base for the course.
+
+## Where to put your work
+
+Create one sub-directory per exercise:
+
+```
+/storage2/wp7/<slug>/ex1/
+/storage2/wp7/<slug>/ex2/
+...
+```
+
+The TA picks up your submissions from there at grading time — no git push, no upload, no Gradescope. See [Submissions](../submissions.md) for the naming convention.
+
+## Why peer reads are open
+
+Shared UIDs make within-account privacy impossible at the POSIX level, and we've decided that's a feature: reading other people's solutions is genuinely useful for learning. Don't be shy about peeking; don't be shy about being peeked at.
+
+!!! note "Ground rules"
+    - **Stay in your lane** — don't write outside your own `<slug>/` directory.
+    - **Don't lock others out** — don't `chmod 700` your directory. It kills peer reads and defeats the point.

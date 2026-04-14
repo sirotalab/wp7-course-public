@@ -1,31 +1,38 @@
 # Submissions
 
-Submit your completed exercise notebooks to the course drop-box.
-
 ## Where
 
-```
-/storage2/wp7/submissions/
-```
-
-It's a write-only directory: you can `cp` files in, but you can't list
-its contents. Don't rely on being able to retrieve your own submission
-from it — keep a copy in your own work area.
-
-## Filename convention
+Save your finished notebook in your exercise directory:
 
 ```
-<your-name>_<ephysNN>_ex<N>.ipynb
+/storage2/wp7/<slug>/exN/
 ```
 
-Example:
+## What
 
-```bash
-cp /storage2/wp7/students/2026/ephys03/alice/ex1.ipynb \
-   /storage2/wp7/submissions/alice_ephys03_ex1.ipynb
+A single notebook named:
+
+```
+exN_<slug>.ipynb
 ```
 
-## Deadline
+For example: `ex1_alice-abel.ipynb`.
 
-Each exercise deadline is listed on the [Schedule](schedule.md) page.
-Late submissions require TA approval.
+## When
+
+By the deadline shown on the [Schedule](schedule.md). Dates will be posted before the term starts.
+
+## How
+
+Just save the file. The TA reads from the same filesystem — there's no upload, no commit-and-push, no submit button.
+
+## What the TA expects
+
+- The notebook runs **end-to-end** (top to bottom, no errors).
+- All TODO cells are filled in.
+- Output cells are included so the TA can see your figures without re-running.
+- If something doesn't run, leave a markdown cell explaining what you tried and where you got stuck.
+
+## Late submissions
+
+Life happens. If you're going to miss a deadline, talk to your TA — but don't ghost. A quick message in the course chat is all it takes to sort things out.
