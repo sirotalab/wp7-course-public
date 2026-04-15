@@ -1,5 +1,10 @@
 # GitLab CI — build the WP7 course site and publish it via GitLab Pages.
 #
+# Runner: shared GitLab runner assigned to sirotalab/wp7-course-public on
+# 2026-04-15 (the first push went out without a runner attached and the
+# pipeline sat idle; this comment is a no-op edit to retrigger the build
+# now that a runner is available).
+#
 # This file lives inside the `public/` subdataset of `wp7-course` and drives
 # the GitLab repo `sirotalab/wp7-course-public`. The *outer* wp7-course repo
 # (with solutions, sourcedata, planning docs, roster CSV) is private and has
