@@ -1,9 +1,14 @@
 # GitLab CI — build the WP7 course site and publish it via GitLab Pages.
 #
-# Runner: shared GitLab runner assigned to sirotalab/wp7-course-public on
-# 2026-04-15 (the first push went out without a runner attached and the
-# pipeline sat idle; this comment is a no-op edit to retrigger the build
-# now that a runner is available).
+# Runner: `gamma2-cogpy` shell executor on gamma2 (assigned 2026-04-15).
+# Because this is a shell executor (not Docker), the `image:` directive is
+# silently ignored — jobs run in the runner's normal user shell, so we have
+# to bring our own Python environment. We do that by creating a per-build
+# `.ci-venv/` from the system `python3`, installing mkdocs-material into
+# it, and exporting its `bin/` onto PATH for the script stage.
+#
+# `python3` (with the 3) is what's available on gamma2 — there's no plain
+# `python` alias. The first attempt at this CI tripped over that.
 #
 # This file lives inside the `public/` subdataset of `wp7-course` and drives
 # the GitLab repo `sirotalab/wp7-course-public`. The *outer* wp7-course repo
@@ -26,8 +31,6 @@
 #     markdown / nav / links via `mkdocs build --strict` before review.
 #   * `pages` — runs only on the default branch, deploys the site to Pages.
 
-image: python:3.11-slim
-
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
   MKDOCS_MATERIAL_SPEC: "mkdocs-material>=9.5,<10"
@@ -39,8 +42,12 @@ cache:
 
 default:
   before_script:
-    - python -m pip install --upgrade pip
-    - python -m pip install "$MKDOCS_MATERIAL_SPEC"
+    # Build a per-job venv from the system python3 (shell executor; no Docker image).
+    - python3 -m venv .ci-venv
+    - .ci-venv/bin/pip install --upgrade pip
+    - .ci-venv/bin/pip install "$MKDOCS_MATERIAL_SPEC"
+    - export PATH="$CI_PROJECT_DIR/.ci-venv/bin:$PATH"
+    - mkdocs --version
 
 stages:
   - build
