@@ -57,12 +57,15 @@ default:
   before_script:
     # Use the shared wp7 conda env's Python (has venv + ensurepip baked in);
     # gamma2's system python3 is missing the python3-venv package.
-    - test -x "$WP7_PYTHON" || { echo "ERROR: $WP7_PYTHON not found"; exit 1; }
-    - "$WP7_PYTHON" -m venv .ci-venv
-    - .ci-venv/bin/pip install --upgrade pip
-    - .ci-venv/bin/pip install "$MKDOCS_MATERIAL_SPEC"
-    - export PATH="$CI_PROJECT_DIR/.ci-venv/bin:$PATH"
-    - mkdocs --version
+    # Each of these steps is wrapped as a YAML single-quoted scalar so that
+    # shell constructs like `$VAR`, `&&`, and `|` don't collide with YAML
+    # block syntax. Double-up internal single quotes if you need them.
+    - 'if [ ! -x "$WP7_PYTHON" ]; then echo "ERROR: $WP7_PYTHON not found or not executable"; exit 1; fi'
+    - '"$WP7_PYTHON" -m venv .ci-venv'
+    - '.ci-venv/bin/pip install --upgrade pip'
+    - '.ci-venv/bin/pip install "$MKDOCS_MATERIAL_SPEC"'
+    - 'export PATH="$CI_PROJECT_DIR/.ci-venv/bin:$PATH"'
+    - 'mkdocs --version'
 
 stages:
   - build
