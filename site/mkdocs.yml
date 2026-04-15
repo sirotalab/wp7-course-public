@@ -1,6 +1,11 @@
 site_name: WP7 — Machine Learning & Analysis of Neural Data
 site_description: GSN practicum course (Sirota / Mlynarski)
-site_url: https://sirotalab.gitlab.io/wp7-course-public/
+# Group-level Pages URL on LRZ GitLab. Requires the project's
+# "Use unique domain" setting to be OFF (Project → Settings → Pages).
+# Same format as sirotalab/labbox's site_url.
+site_url: https://sirotalab.pages.gitlab.lrz.de/wp7-course-public/
+repo_url: https://gitlab.lrz.de/sirotalab/wp7-course-public
+repo_name: sirotalab/wp7-course-public
 docs_dir: docs
 
 theme:
