@@ -9,18 +9,21 @@
 #   1. First attempt used `python -m pip ...` — failed because gamma2 has
 #      no `python` alias, only `python3`.
 #   2. Second attempt used `python3 -m venv .ci-venv` — failed because the
-#      gamma2 system python3 has no `ensurepip` / `python3-venv` package
-#      installed.
+#      gamma2 system python3 has no `ensurepip` / `python3-venv` package.
+#   3. Third attempt wrapped the existence check in a shell brace group
+#      `|| { echo ...; exit 1; }` — failed because YAML parses `{` as the
+#      start of a flow-style mapping and collided with the `-` list indicator.
 #
-# Current approach: use the shared wp7 conda env's Python at
-#   /storage/share/python/environments/Anaconda3/envs/wp7/bin/python3
-# which is a full Anaconda install (has venv + ensurepip + pip). It's
-# group-readable from any HPC node, so the runner can use it without
-# touching the env itself. We create a per-job .ci-venv/ from THAT python,
-# install mkdocs-material into the venv, and export its bin/ onto PATH.
+# Current approach: **uv**, matching how the outer wp7-course tree handles
+# its TA-side Python tooling (pyproject.toml + uv.lock + .venv/). uv is a
+# single static binary with zero system dependencies — no python3-venv, no
+# conda, no system Python package at all. uv downloads its own standalone
+# Python via `uv python install 3.11`, then `uvx --from mkdocs-material
+# mkdocs build ...` provisions an ephemeral env for one invocation without
+# needing a pyproject.toml inside this public/ repo.
 #
-# When the future pixi env is up at /storage2/wp7/env/.pixi/envs/default/,
-# WP7_PYTHON below can be repointed there instead.
+# The `uv python install` + `uvx` caches are pinned to project-local
+# paths so the runner can't leak between CI jobs or other projects.
 #
 # This file lives inside the `public/` subdataset of `wp7-course` and drives
 # the GitLab repo `sirotalab/wp7-course-public`. The *outer* wp7-course repo
@@ -44,39 +47,47 @@
 #   * `pages` — runs only on the default branch, deploys the site to Pages.
 
 variables:
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
   MKDOCS_MATERIAL_SPEC: "mkdocs-material>=9.5,<10"
-  WP7_PYTHON: "/storage/share/python/environments/Anaconda3/envs/wp7/bin/python3"
+  # All uv state lives under the project build dir so the runner can
+  # cache it and nothing leaks into the runner user's $HOME.
+  UV_CACHE_DIR: "$CI_PROJECT_DIR/.cache/uv"
+  UV_PYTHON_INSTALL_DIR: "$CI_PROJECT_DIR/.cache/uv-python"
+  UV_INSTALL_DIR: "$CI_PROJECT_DIR/.ci-uv"
 
 cache:
-  key: pip-mkdocs
+  key: uv-mkdocs
   paths:
-    - .cache/pip
+    - .cache/uv          # uv package cache (wheels, resolver cache)
+    - .cache/uv-python   # standalone Python interpreters uv downloads
+    - .ci-uv             # uv itself (so re-installs are no-ops on warm cache)
 
 default:
   before_script:
-    # Use the shared wp7 conda env's Python (has venv + ensurepip baked in);
-    # gamma2's system python3 is missing the python3-venv package.
-    # Each of these steps is wrapped as a YAML single-quoted scalar so that
-    # shell constructs like `$VAR`, `&&`, and `|` don't collide with YAML
-    # block syntax. Double-up internal single quotes if you need them.
-    - 'if [ ! -x "$WP7_PYTHON" ]; then echo "ERROR: $WP7_PYTHON not found or not executable"; exit 1; fi'
-    - '"$WP7_PYTHON" -m venv .ci-venv'
-    - '.ci-venv/bin/pip install --upgrade pip'
-    - '.ci-venv/bin/pip install "$MKDOCS_MATERIAL_SPEC"'
-    - 'export PATH="$CI_PROJECT_DIR/.ci-venv/bin:$PATH"'
-    - 'mkdocs --version'
+    # Single-quoted YAML scalars so shell $VARs and `|` don't collide with
+    # YAML syntax — same convention used across the whole before_script.
+    #
+    # 1. Bootstrap uv (static binary, zero dependencies). UV_INSTALL_DIR
+    #    redirects the installer target to a project-local dir we control.
+    - 'curl -LsSf https://astral.sh/uv/install.sh | sh'
+    - 'export PATH="$UV_INSTALL_DIR:$PATH"'
+    - 'uv --version'
+    # 2. Fetch a standalone Python build — no python3-venv / ensurepip
+    #    needed from the host. Cached across jobs via UV_PYTHON_INSTALL_DIR.
+    - 'uv python install 3.11'
 
 stages:
   - build
   - deploy
 
 # Feature-branch + MR build: fails fast on bad markdown, no deploy.
+# `uvx --from mkdocs-material mkdocs ...` provisions an ephemeral env
+# for this one invocation (cached in $UV_CACHE_DIR across jobs), so
+# there's no pyproject.toml needed inside this public/ repo.
 build:
   stage: build
   script:
-    - cd site
-    - mkdocs build --strict --site-dir /tmp/pages-preview
+    - 'cd site'
+    - 'uvx --from "$MKDOCS_MATERIAL_SPEC" mkdocs build --strict --site-dir /tmp/pages-preview'
   rules:
     - if: '$CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -87,8 +98,8 @@ build:
 pages:
   stage: deploy
   script:
-    - cd site
-    - mkdocs build --strict --site-dir ../public
+    - 'cd site'
+    - 'uvx --from "$MKDOCS_MATERIAL_SPEC" mkdocs build --strict --site-dir ../public'
   artifacts:
     paths:
       - public
