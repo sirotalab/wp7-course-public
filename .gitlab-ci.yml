@@ -1,33 +1,67 @@
 # GitLab CI — build the WP7 course site and publish it via GitLab Pages.
 #
-# Layout:
+# This file lives inside the `public/` subdataset of `wp7-course` and drives
+# the GitLab repo `sirotalab/wp7-course-public`. The *outer* wp7-course repo
+# (with solutions, sourcedata, planning docs, roster CSV) is private and has
+# no Pages job — the trust boundary is structural: solutions literally don't
+# exist inside `public/`, so they can't reach the deployed site even by
+# accident.
+#
+# Layout (inside this repo):
 #   ./site/                 mkdocs source (docs_dir = site/docs)
 #   ./course-materials/     student-downloadable files (not served via Pages)
 #
-# Pages serves whatever the `pages` job writes to `./public/` at artifact time.
+# Pages serves whatever the `pages` job writes to `./public/` at artifact
+# time. The directory name `public/` is a GitLab Pages convention and is
+# unrelated to the outer project's `public/` subdataset (same git repo
+# viewed from different sides; inside the CI runner there's only one tree).
+#
+# Two jobs:
+#   * `build` — runs on every branch and every merge request, catches broken
+#     markdown / nav / links via `mkdocs build --strict` before review.
+#   * `pages` — runs only on the default branch, deploys the site to Pages.
 
 image: python:3.11-slim
 
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  MKDOCS_MATERIAL_SPEC: "mkdocs-material>=9.5,<10"
 
 cache:
   key: pip-mkdocs
   paths:
     - .cache/pip
 
-pages:
-  stage: deploy
+default:
   before_script:
-    - pip install --upgrade pip
-    - pip install mkdocs mkdocs-material
+    - python -m pip install --upgrade pip
+    - python -m pip install "$MKDOCS_MATERIAL_SPEC"
+
+stages:
+  - build
+  - deploy
+
+# Feature-branch + MR build: fails fast on bad markdown, no deploy.
+build:
+  stage: build
   script:
     - cd site
-    - mkdocs build --site-dir ../public
+    - mkdocs build --strict --site-dir /tmp/pages-preview
+  rules:
+    - if: '$CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+# Default-branch deploy job. GitLab Pages magic: the job must be named
+# `pages` and its artifact must be a directory called `public/` at the
+# repo root. mkdocs builds there directly.
+pages:
+  stage: deploy
+  script:
+    - cd site
+    - mkdocs build --strict --site-dir ../public
   artifacts:
     paths:
       - public
     expire_in: 30 days
   rules:
-    - if: $CI_COMMIT_BRANCH == "master"
-    - if: $CI_COMMIT_BRANCH == "main"
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
