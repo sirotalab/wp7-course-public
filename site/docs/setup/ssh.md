@@ -10,9 +10,9 @@ This page walks you through getting onto the lab HPC from your laptop.
 
 ## Your login account
 
-The cohort shares 10 pooled accounts: **`ephys01` … `ephys10`**. You will be
-assigned one before the first session — check `course-materials/README.md`
-and the Moodle page for the current cohort.
+The cohort shares 10 pooled accounts: **`ephys01` … `ephys10`**. To get yours
+assigned, fill in the [SSH access request form](../tools/request-access.html) —
+you will receive your `ephysNN` login and initial password by reply.
 
 Multiple students may share the same `ephysNN` login, so filesystem ownership
 does **not** identify an individual. See [HPC workspace](workspace.md) for the

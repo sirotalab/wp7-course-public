@@ -31,6 +31,7 @@ nav:
   - Quick start: quickstart.md
   - Schedule: schedule.md
   - Setup:
+      - Request SSH access: tools/request-access.html
       - SSH: setup/ssh.md
       - Interactive SSH tool: tools/ssh-setup.html
       - VS Code Remote: setup/vscode.md
