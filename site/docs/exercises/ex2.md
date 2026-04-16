@@ -1,16 +1,16 @@
-# Exercise 2 — Dimensionality reduction
+# Exercise 2 — Encoding in individual neurons
 
-Apply linear (PCA, ICA) and nonlinear (Isomap) dimensionality reduction to neural data — spike waveforms and LFP signals — and learn what low-dimensional structure can tell you about the brain.
+Build a linear–nonlinear encoding model for retinal ganglion cells. You'll compute spike-triggered averages, fit a Poisson GLM, and assess how well the model predicts neural responses to visual stimuli.
 
 ## At a glance
 
 | | |
 |---|---|
-| **Directory** | `course-materials/exercises/ex2-dimred/` |
-| **Data** | `lfp.mat`, `spike_waveshapes.mat` (from `sourcedata/`) |
-| **Packages** | numpy, scipy, matplotlib, scikit-learn (`PCA`, `FastICA`, `Isomap`) |
-| **Helper module** | — (scikit-learn does the heavy lifting) |
-| **Prereqs** | `lectures/sirota/DimReduction_1_2023.pdf`, `DimReduction_BSS.pdf`, `DimReduction_Nonlinear.pdf` |
+| **Directory** | `course-materials/exercises/ex2-encoding/` |
+| **Data** | `data_RGCs/` (SpTimes.mat, Stim.mat, stimtimes.mat) |
+| **Packages** | numpy, scipy, matplotlib |
+| **Helper module** | — |
+| **Prereqs** | Mlynarski lecture on encoding in individual neurons |
 | **Deadline** | TBD — see [Schedule](../schedule.md) |
 
 ## First steps
@@ -18,7 +18,7 @@ Apply linear (PCA, ICA) and nonlinear (Isomap) dimensionality reduction to neura
 ```bash
 conda activate wp7
 mkdir -p ~/<slug>/ex2 && cd ~/<slug>/ex2
-cp /storage2/wp7/course-materials/exercises/ex2-dimred/starter.ipynb ex2_<slug>.ipynb
+cp /storage2/wp7/course-materials/exercises/ex2-encoding/starter.ipynb ex2_<slug>.ipynb
 ```
 
-Check the exercise `README.md` for data paths and tips. The prompt PDF (`ex2.pdf`) is in the same directory.
+Check the exercise `README.md` for data paths and tips.

@@ -1,16 +1,16 @@
-# Exercise 4 — Time-resolved spectral analysis
+# Exercise 4 — Decoding neural activity
 
-Build spectrograms to see how oscillation power changes over time. You'll explore the time–frequency tradeoff and identify theta, ripple, and other activity patterns in the same hippocampal LFP from Ex3.
+Reconstruct stimulus identity from population spiking activity. You'll implement Bayesian and linear decoders, evaluate with cross-validation, and explore how decoding accuracy depends on population size.
 
 ## At a glance
 
 | | |
 |---|---|
-| **Directory** | `course-materials/exercises/ex4-spectral-timeresolved/` |
-| **Data** | `ws_data_1shank.mat` (same 16-ch LFP as Ex3) |
-| **Packages** | numpy, scipy, matplotlib |
-| **Helper module** | `wp7_helpers.spectrogram_multitaper` — see `course-materials/lib/wp7_helpers.py` |
-| **Prereqs** | `lectures/sirota/SpectralAnalysis_1_2023.pdf`, `SpectralAnalysis_2_2023.pdf`, `SpectralAnalysis_3_2023.pdf` |
+| **Directory** | `course-materials/exercises/ex4-decoding/` |
+| **Data** | `crcns_pvc8/` (same dataset as Ex1 and Ex3) |
+| **Packages** | numpy, scipy, matplotlib, scikit-learn |
+| **Helper module** | — |
+| **Prereqs** | Mlynarski lecture on decoding; Ex2 and Ex3 recommended |
 | **Deadline** | TBD — see [Schedule](../schedule.md) |
 
 ## First steps
@@ -18,7 +18,7 @@ Build spectrograms to see how oscillation power changes over time. You'll explor
 ```bash
 conda activate wp7
 mkdir -p ~/<slug>/ex4 && cd ~/<slug>/ex4
-cp /storage2/wp7/course-materials/exercises/ex4-spectral-timeresolved/starter.ipynb ex4_<slug>.ipynb
+cp /storage2/wp7/course-materials/exercises/ex4-decoding/starter.ipynb ex4_<slug>.ipynb
 ```
 
-Make sure you're comfortable with Ex3 first — Ex4 builds directly on it. See the `README.md` for window-size tips and the prompt PDF `ex4.pdf`.
+Check the exercise `README.md` for data paths and tips.

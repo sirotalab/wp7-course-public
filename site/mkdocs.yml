@@ -48,8 +48,12 @@ nav:
   - Exercises:
       - Overview: exercises/index.md
       - Ex1 — Bootstrap: exercises/ex1.md
-      - Ex2 — Dimensionality reduction: exercises/ex2.md
-      - Ex3 — Univariate spectral analysis: exercises/ex3.md
-      - Ex4 — Time-resolved spectral analysis: exercises/ex4.md
-      - Ex5 — Bivariate spectral analysis: exercises/ex5.md
+      - Ex2 — Encoding: exercises/ex2.md
+      - Ex3 — Neural populations: exercises/ex3.md
+      - Ex4 — Decoding: exercises/ex4.md
+      - Ex5 — Clustering: exercises/ex5.md
+      - Ex6 — Dimensionality reduction: exercises/ex6.md
+      - Ex7 — Univariate spectral analysis: exercises/ex7.md
+      - Ex8 — Time-resolved spectral analysis: exercises/ex8.md
+      - Ex9 — Bivariate spectral analysis: exercises/ex9.md
   - Submissions: submissions.md

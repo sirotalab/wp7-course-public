@@ -47,22 +47,22 @@ The course uses two separate [DataLad](https://www.datalad.org/) datasets. They 
 
 ## What happens when the TA publishes new material
 
-Here's the concrete sequence when, say, Exercise 3 starters are ready:
+Here's the concrete sequence when, say, Exercise 7 starters are ready:
 
 ### 1. TA adds files on the HPC
 
 ```bash
 # In the TA's private repo:
-cp -r ~/new-ex3-starters/ public/course-materials/exercises/ex3-spectral/
+cp -r ~/new-ex7-starters/ public/course-materials/exercises/ex7-spectral-univariate/
 ```
 
-The new files land in `public/course-materials/exercises/ex3-spectral/` — starter notebook, `README.md`, sample data.
+The new files land in `public/course-materials/exercises/ex7-spectral-univariate/` — starter notebook, `README.md`, sample data.
 
 ### 2. TA saves and pushes
 
 ```bash
 cd public/
-datalad save -m "add ex3 spectral analysis starters"
+datalad save -m "add ex7 spectral analysis starters"
 datalad push --to ria
 ```
 
@@ -91,7 +91,7 @@ datalad get .             # download any new annexed content
 
 ### Scenario: you worked on the HPC, want to pull to laptop
 
-You edited `ex3/ex3_alice-abel.ipynb` on gamma3 via VS Code Remote-SSH and ran some cells.
+You edited `ex7/ex7_alice-abel.ipynb` on gamma3 via VS Code Remote-SSH and ran some cells.
 
 ```bash
 # On your laptop:
@@ -109,11 +109,11 @@ You worked offline and want your changes back on the HPC before the deadline.
 ```bash
 # On your laptop:
 cd ~/wp7-work
-datalad save -m "ex3 finished"
+datalad save -m "ex7 finished"
 datalad push --to origin
 ```
 
-The push updates the HPC worktree in-place — no merge needed on the HPC side. The TA sees your submission at `/storage2/wp7/<your-slug>/ex3/` at grading time.
+The push updates the HPC worktree in-place — no merge needed on the HPC side. The TA sees your submission at `/storage2/wp7/<your-slug>/ex7/` at grading time.
 
 ### Scenario: you worked in both places
 

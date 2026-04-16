@@ -4,10 +4,10 @@ Thin wrappers for multitaper spectral analysis — WP7 practicum.
 Provides four functions matching the lecture conventions used in
 Anton Sirota's *Machine Learning & Analysis of Neural Data* course:
 
-- ``psd_multitaper``         — Ex 3  (univariate PSD)
-- ``spectrogram_multitaper`` — Ex 4  (time-resolved spectrogram)
-- ``cross_spectrum``         — Ex 5  (bivariate cross-spectral density)
-- ``coherence``              — Ex 5  (magnitude-squared coherence)
+- ``psd_multitaper``         — Ex 7  (univariate PSD)
+- ``spectrogram_multitaper`` — Ex 8  (time-resolved spectrogram)
+- ``cross_spectrum``         — Ex 9  (bivariate cross-spectral density)
+- ``coherence``              — Ex 9  (magnitude-squared coherence)
 
 All functions operate on plain NumPy arrays and return ``(freqs, ...)``
 tuples.  The central parameter throughout is the *time-halfbandwidth
@@ -24,6 +24,25 @@ Import pattern used in exercise starters::
     import sys
     sys.path.insert(0, '../../lib')
     from wp7_helpers import psd_multitaper
+
+How the multitaper method works (for students)
+----------------------------------------------
+A standard periodogram computes |FFT(x)|^2 — one estimate, high variance.
+The multitaper method reduces variance by multiplying the signal with K
+orthogonal *Slepian* (DPSS) tapers, computing a periodogram for each,
+and averaging.  The tapers are chosen to maximally concentrate spectral
+energy within a bandwidth controlled by ``nw``.
+
+The explicit steps (what this module does under the hood):
+
+1. Generate K = 2*nw - 1 DPSS tapers of length N.
+2. For each taper k:
+   a. Multiply:   x_tapered[k] = x * taper[k]
+   b. FFT:        X[k] = fft(x_tapered[k])
+   c. Periodogram: P[k] = |X[k]|^2 / (fs * N)
+3. Average:  PSD = mean(P[0], P[1], ..., P[K-1])
+
+More tapers → lower variance but broader spectral peaks (more smoothing).
 """
 from __future__ import annotations
 
@@ -40,6 +59,99 @@ try:
 except ImportError:
     _gsp = None  # type: ignore[assignment]
     _HAS_GHOSTIPY = False
+
+
+# ---------------------------------------------------------------------------
+# Internal helpers
+# ---------------------------------------------------------------------------
+
+def _dpss_tapers(n: int, nw: float, ntapers: int | None = None) -> np.ndarray:
+    """Compute DPSS (Slepian) tapers.
+
+    Returns
+    -------
+    tapers : np.ndarray, shape (K, n)
+        K orthogonal tapers, each of length n.
+    """
+    k = ntapers if ntapers is not None else int(2 * nw - 1)
+    return _signal.windows.dpss(n, nw, Kmax=k)  # (K, n)
+
+
+def _rfft_freqs(n: int, fs: float) -> np.ndarray:
+    """One-sided frequency axis for a real signal of length n."""
+    return np.fft.rfftfreq(n, d=1.0 / fs)
+
+
+def _multitaper_psd_from_tapers(
+    x: np.ndarray, tapers: np.ndarray, fs: float
+) -> tuple[np.ndarray, np.ndarray]:
+    """Core multitaper PSD: taper × FFT × average.
+
+    This is the explicit version of what scipy.signal.periodogram(window=t)
+    does internally, written out so students can see each step.
+
+    Parameters
+    ----------
+    x : 1-D detrended signal
+    tapers : (K, N) DPSS tapers
+    fs : sampling rate
+
+    Returns
+    -------
+    freqs : (n_freqs,)
+    psd : (n_freqs,)
+    """
+    n = len(x)
+    freqs = _rfft_freqs(n, fs)
+
+    # Step 1: multiply signal by each taper, compute one-sided |FFT|^2
+    #   x_tapered = x * taper[k]       — localise in frequency
+    #   X_k       = rfft(x_tapered)     — transform to frequency domain
+    #   P_k       = |X_k|^2 / (fs * N) — normalise to density (V^2/Hz)
+    psds = np.empty((len(tapers), len(freqs)))
+    for k, taper in enumerate(tapers):
+        x_tapered = x * taper
+        X_k = np.fft.rfft(x_tapered)
+        P_k = (np.abs(X_k) ** 2) / (fs * n)
+        # double the one-sided bins (except DC and Nyquist)
+        P_k[1:-1] *= 2.0
+        psds[k] = P_k
+
+    # Step 2: average over tapers — this is the variance reduction
+    return freqs, psds.mean(axis=0)
+
+
+def _multitaper_csd_from_tapers(
+    x: np.ndarray, y: np.ndarray, tapers: np.ndarray, fs: float
+) -> tuple[np.ndarray, np.ndarray]:
+    """Core multitaper cross-spectral density.
+
+    Same logic as ``_multitaper_psd_from_tapers`` but computes
+    conj(X) * Y instead of |X|^2.
+
+    Parameters
+    ----------
+    x, y : 1-D detrended signals (same length)
+    tapers : (K, N) DPSS tapers
+    fs : sampling rate
+
+    Returns
+    -------
+    freqs : (n_freqs,)
+    csd : (n_freqs,), complex
+    """
+    n = len(x)
+    freqs = _rfft_freqs(n, fs)
+
+    csds = np.empty((len(tapers), len(freqs)), dtype=complex)
+    for k, taper in enumerate(tapers):
+        Xk = np.fft.rfft(x * taper)
+        Yk = np.fft.rfft(y * taper)
+        Ck = np.conj(Xk) * Yk / (fs * n)
+        Ck[1:-1] *= 2.0
+        csds[k] = Ck
+
+    return freqs, csds.mean(axis=0)
 
 
 # ---------------------------------------------------------------------------
@@ -92,12 +204,11 @@ def psd_multitaper(
     >>> freqs[0], freqs[-1]
     (0.0, 500.0)
     """
-    ntapers_k: int = ntapers if ntapers is not None else int(2 * nw - 1)
-    n_seg: int = len(x) if nperseg is None else min(nperseg, len(x))
+    n_seg = len(x) if nperseg is None else min(nperseg, len(x))
     xd = _signal.detrend(x[:n_seg], type=detrend)
 
     if _HAS_GHOSTIPY:
-        # ghostipy uses bandwidth in Hz: bw = 2 * nw * fs / n_seg
+        ntapers_k = ntapers if ntapers is not None else int(2 * nw - 1)
         bandwidth = 2.0 * nw * fs / n_seg
         psd, freqs = _gsp.mtm_spectrum(
             xd,
@@ -109,14 +220,8 @@ def psd_multitaper(
         )
         return freqs, psd
 
-    # scipy fallback: K DPSS tapers, average periodogram over tapers
-    tapers = _signal.windows.dpss(n_seg, nw, Kmax=ntapers_k)  # (K, n_seg)
-    psds = [
-        _signal.periodogram(xd, fs=fs, window=t, scaling="density")[1]
-        for t in tapers
-    ]
-    freqs = _signal.periodogram(xd, fs=fs, window=tapers[0], scaling="density")[0]
-    return freqs, np.mean(psds, axis=0)
+    tapers = _dpss_tapers(n_seg, nw, ntapers)
+    return _multitaper_psd_from_tapers(xd, tapers, fs)
 
 
 def spectrogram_multitaper(
@@ -128,8 +233,10 @@ def spectrogram_multitaper(
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Time-resolved multitaper spectrogram via a sliding window.
 
-    Calls ``psd_multitaper`` on each sliding window.  This explicit loop
-    is useful for understanding the time-frequency resolution trade-off.
+    Slides a window of length ``window_sec`` across the signal and calls
+    ``psd_multitaper`` on each segment.  The explicit loop makes the
+    time–frequency resolution trade-off visible: shorter windows give
+    finer time resolution but coarser frequency resolution, and vice versa.
 
     Parameters
     ----------
@@ -162,17 +269,24 @@ def spectrogram_multitaper(
     >>> S.shape[0] == len(freqs) and S.shape[1] == len(times)
     True
     """
-    nperseg: int = int(window_sec * fs)
-    step: int = max(1, int(nperseg * (1.0 - overlap)))
+    nperseg = int(window_sec * fs)
+    step = max(1, int(nperseg * (1.0 - overlap)))
     onsets = np.arange(0, len(x) - nperseg + 1, step)
     times = (onsets + nperseg / 2.0) / fs
 
+    # Pre-compute tapers once — reused for every window
+    tapers = _dpss_tapers(nperseg, nw)
+
     spectra = []
     for onset in onsets:
-        seg = x[onset : onset + nperseg]
-        freqs, psd = psd_multitaper(seg, fs=fs, nw=nw)
+        seg = _signal.detrend(x[onset : onset + nperseg], type="constant")
+        if _HAS_GHOSTIPY:
+            _, psd = psd_multitaper(seg, fs=fs, nw=nw, detrend="constant")
+        else:
+            _, psd = _multitaper_psd_from_tapers(seg, tapers, fs)
         spectra.append(psd)
 
+    freqs = _rfft_freqs(nperseg, fs)
     S = np.array(spectra).T  # (n_freqs, n_times)
     return freqs, times, S
 
@@ -186,8 +300,9 @@ def cross_spectrum(
 ) -> tuple[np.ndarray, np.ndarray]:
     """Multitaper cross-spectral density between two signals.
 
-    Uses ``scipy.signal.csd`` with DPSS taper averaging: the CSD is
-    computed for each Slepian taper and averaged over K tapers.
+    Segments the signals into overlapping blocks of length ``nperseg``
+    (Welch-style), applies DPSS tapers to each block, and averages the
+    cross-periodograms over both segments and tapers.
 
     Parameters
     ----------
@@ -198,7 +313,8 @@ def cross_spectrum(
     fs : float
         Sampling frequency in Hz.
     nperseg : int
-        Segment length in samples; also the taper length.
+        Segment length in samples.  Controls the frequency resolution
+        and the number of independent segments used for averaging.
     nw : float
         Time-halfbandwidth product.
 
@@ -219,16 +335,8 @@ def cross_spectrum(
     >>> Pxy.dtype
     dtype('complex128')
     """
-    ntapers_k: int = int(2 * nw - 1)
-    tapers = _signal.windows.dpss(nperseg, nw, Kmax=ntapers_k)
-    csds = [
-        _signal.csd(x, y, fs=fs, nperseg=nperseg, window=t, scaling="density")[1]
-        for t in tapers
-    ]
-    freqs, _ = _signal.csd(
-        x, y, fs=fs, nperseg=nperseg, window=tapers[0], scaling="density"
-    )
-    return freqs, np.mean(csds, axis=0)
+    tapers = _dpss_tapers(nperseg, nw)
+    return _welch_mt_csd(x, y, tapers, fs, nperseg)
 
 
 def coherence(
@@ -240,9 +348,13 @@ def coherence(
 ) -> tuple[np.ndarray, np.ndarray]:
     """Magnitude-squared coherence between two signals.
 
-    Builds on ``cross_spectrum``::
+    Computes::
 
-        Cxy[f] = |Pxy[f]|**2 / (Pxx[f] * Pyy[f])
+        Cxy[f] = |Pxy[f]|^2 / (Pxx[f] * Pyy[f])
+
+    where Pxy is the cross-spectral density and Pxx, Pyy are the
+    auto-spectral densities.  All three are estimated with the same
+    DPSS tapers and segment structure, ensuring consistency.
 
     Parameters
     ----------
@@ -256,7 +368,7 @@ def coherence(
         Segment (window) length in samples.  Longer windows give more
         reliable estimates but lower temporal resolution.
     nw : float
-        Time-halfbandwidth product passed to ``cross_spectrum``.
+        Time-halfbandwidth product.
 
     Returns
     -------
@@ -275,9 +387,70 @@ def coherence(
     >>> 0.0 <= Cxy.min() and Cxy.max() <= 1.0
     True
     """
-    freqs, Pxy = cross_spectrum(x, y, fs, nperseg, nw)
-    _, Pxx = cross_spectrum(x, x, fs, nperseg, nw)
-    _, Pyy = cross_spectrum(y, y, fs, nperseg, nw)
+    # Compute tapers once — shared across Pxy, Pxx, Pyy
+    tapers = _dpss_tapers(nperseg, nw)
+
+    freqs, Pxy = _welch_mt_csd(x, y, tapers, fs, nperseg)
+    _, Pxx = _welch_mt_csd(x, x, tapers, fs, nperseg)
+    _, Pyy = _welch_mt_csd(y, y, tapers, fs, nperseg)
+
     denom = np.clip(Pxx.real * Pyy.real, a_min=1e-30, a_max=None)
     Cxy = np.abs(Pxy) ** 2 / denom
     return freqs, np.clip(Cxy, 0.0, 1.0)
+
+
+# ---------------------------------------------------------------------------
+# Welch-style multitaper CSD (used by cross_spectrum and coherence)
+# ---------------------------------------------------------------------------
+
+def _welch_mt_csd(
+    x: np.ndarray,
+    y: np.ndarray,
+    tapers: np.ndarray,
+    fs: float,
+    nperseg: int,
+    overlap_frac: float = 0.5,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Welch + multitaper CSD: segment → taper → FFT → average.
+
+    Segments x and y into overlapping blocks, applies every DPSS taper
+    to each block, and averages the cross-periodograms over all
+    (segment, taper) pairs.
+
+    This gives two independent sources of variance reduction:
+    - **Segments** (Welch): more independent time blocks → lower variance
+    - **Tapers** (multitaper): orthogonal spectral windows → lower variance
+
+    Parameters
+    ----------
+    x, y : 1-D arrays, same length
+    tapers : (K, nperseg) DPSS tapers
+    fs : sampling rate
+    nperseg : segment length
+    overlap_frac : fractional overlap between segments (default 0.5)
+
+    Returns
+    -------
+    freqs : (n_freqs,)
+    csd : (n_freqs,), complex
+    """
+    step = max(1, int(nperseg * (1.0 - overlap_frac)))
+    onsets = np.arange(0, len(x) - nperseg + 1, step)
+    freqs = _rfft_freqs(nperseg, fs)
+    n_freqs = len(freqs)
+
+    csd_accum = np.zeros(n_freqs, dtype=complex)
+    count = 0
+
+    for onset in onsets:
+        xseg = _signal.detrend(x[onset : onset + nperseg], type="constant")
+        yseg = _signal.detrend(y[onset : onset + nperseg], type="constant")
+        for taper in tapers:
+            Xk = np.fft.rfft(xseg * taper)
+            Yk = np.fft.rfft(yseg * taper)
+            Ck = np.conj(Xk) * Yk / (fs * nperseg)
+            Ck[1:-1] *= 2.0
+            csd_accum += Ck
+            count += 1
+
+    return freqs, csd_accum / count

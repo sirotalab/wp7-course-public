@@ -10,29 +10,38 @@ On HPC the slide PDFs live at `/storage2/wp7/course-materials/lectures/`.
 
 ## Mlynarski (weeks 1–5)
 
-Five lectures covering single-neuron encoding, neural populations, neural decoding, and clustering. The SS25 versions are `Lecture_01.pdf` through `Lecture_05.pdf` on the Biology cloud. These have not yet been copied into `course-materials/lectures/` — grab them from the [Biology cloud link](https://cloud.biologie.uni-muenchen.de/index.php/s/gWECcZFo8MLYLWL) until they're staged locally.
+Five lectures covering the first half of the course. Staged from the SS25 Moodle archive.
 
-## Sirota (weeks 6–10)
+| Week | Topic | File |
+|------|-------|------|
+| 1 | Introduction & nonparametric hypothesis testing | `lectures/mlynarski/Lecture_01.pdf` |
+| 2 | Encoding in individual neurons | `lectures/mlynarski/Lecture_02.pdf` |
+| 3 | Modelling neural population activity | `lectures/mlynarski/Lecture_03.pdf` |
+| 4 | Decoding neural activity | `lectures/mlynarski/Lecture_04.pdf` |
+| 5 | Unsupervised structure discovery — clustering | `lectures/mlynarski/Lecture_05.pdf` |
 
-Six lecture PDFs covering two topic blocks. Anton squeezes these into five weeks, so two sessions get doubled up (typically DimReduction II+III and SpectralAnalysis III + bivariate).
+## Sirota (weeks 6–9)
+
+Four lectures covering dimensionality reduction and spectral analysis. Both 2023 and 2025 versions are staged — the 2025 versions are the most current.
 
 ### Dimensionality reduction
 
-| Part | File |
-|------|------|
-| I — Foundations (PCA) | `lectures/sirota/DimReduction_1_2023.pdf` |
-| II — Blind source separation (ICA) | `lectures/sirota/DimReduction_BSS.pdf` |
-| III — Nonlinear methods (Isomap, t-SNE, UMAP) | `lectures/sirota/DimReduction_Nonlinear.pdf` |
+| Part | File (2025) | File (2023, reference) |
+|------|-------------|------------------------|
+| I — Foundations (PCA) | `lectures/sirota/Lecture_06_DimReduction_1_2025.pdf` | `lectures/sirota/DimReduction_1_2023.pdf` |
+| II — BSS + Nonlinear | `lectures/sirota/Lecture_07_DimReduction2_2025.pdf` | `lectures/sirota/DimReduction_BSS.pdf`, `DimReduction_Nonlinear.pdf` |
 
 ### Spectral analysis
 
-| Part | File |
-|------|------|
-| I — Fourier basics, periodogram, Welch | `lectures/sirota/SpectralAnalysis_1_2023.pdf` |
-| II — Multitaper theory, DPSS, cross-spectrum | `lectures/sirota/SpectralAnalysis_2_2023.pdf` |
-| III — Time-frequency, coherence | `lectures/sirota/SpectralAnalysis_3_2023.pdf` |
+| Part | File (2025) | File (2023, reference) |
+|------|-------------|------------------------|
+| I — Fourier basics, periodogram, Welch | `lectures/sirota/Lecture_08_SpectralAnalysis_1_2025.pdf` | `lectures/sirota/SpectralAnalysis_1_2023.pdf` |
+| II — Multitaper theory, DPSS, cross-spectrum | `lectures/sirota/Lecture_09_SpectralAnalysis_2_2025.pdf` | `lectures/sirota/SpectralAnalysis_2_2023.pdf` |
+| III — Time-frequency, coherence | `lectures/sirota/Lecture_10_SpectralAnalysis_3_2025.pdf` | `lectures/sirota/SpectralAnalysis_3_2023.pdf` |
 
-!!! note "Year tag"
-    The `_2023` suffix means "last revised in 2023," not "only for the 2023 cohort." These slides are current for 2026 unless Anton updates them before the term.
+## Textbooks
+
+1. Kevin Murphy — *Machine Learning: A Probabilistic Approach*
+2. David MacKay — *Information Theory, Inference and Learning Algorithms*
 
 See also: [Schedule](schedule.md) · [Exercises](exercises/index.md)

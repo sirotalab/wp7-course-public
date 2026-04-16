@@ -14,10 +14,10 @@ from wp7_helpers import psd_multitaper
 
 | Function | Exercise | Description |
 |----------|----------|-------------|
-| `psd_multitaper` | Ex 3 | Power spectral density via DPSS multitapers |
-| `spectrogram_multitaper` | Ex 4 | Sliding-window multitaper spectrogram |
-| `cross_spectrum` | Ex 5 | Multitaper cross-spectral density (complex) |
-| `coherence` | Ex 5 | Magnitude-squared coherence in [0, 1] |
+| `psd_multitaper` | Ex 7 | Power spectral density via DPSS multitapers |
+| `spectrogram_multitaper` | Ex 8 | Sliding-window multitaper spectrogram |
+| `cross_spectrum` | Ex 9 | Multitaper cross-spectral density (complex) |
+| `coherence` | Ex 9 | Magnitude-squared coherence in [0, 1] |
 
 All functions accept plain NumPy arrays and return `(freqs, ...)` tuples.
 The central parameter is `nw` (time-halfbandwidth product), which controls

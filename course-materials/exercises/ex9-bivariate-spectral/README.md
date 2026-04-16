@@ -1,4 +1,4 @@
-# Exercise 5 — Bivariate Spectral Analysis
+# Exercise 9 — Bivariate Spectral Analysis
 
 ## Topic
 
@@ -12,7 +12,7 @@ for modern analyses of inter-areal communication in systems neuroscience.
 
 ## Files in this directory
 
-- `ex5.pdf` — the exercise prompt (authored by Anton Sirota)
+- `ex9.pdf` — the exercise prompt (authored by Anton Sirota)
 - `starter.ipynb` — scaffolded Neuromatch-style notebook
 - `README.md` — this file
 
@@ -25,7 +25,7 @@ for modern analyses of inter-areal communication in systems neuroscience.
 ```
 
 Variable `lfps`, shape `(n_samples, 16)`, sampling rate **1250 Hz**.
-(Same data as Ex3 and Ex4.)
+(Same data as Ex7 and Ex8.)
 
 ```python
 import scipy.io
@@ -37,7 +37,7 @@ lfps = scipy.io.loadmat('path/to/ws_data_1shank.mat')['lfps']
 - **Lectures** (from `lectures/sirota/`):
   - `SpectralAnalysis_2_2023.pdf` — multitaper theory, cross-spectrum
   - `SpectralAnalysis_3_2023.pdf` — coherence definition and interpretation
-- **Previous exercises**: Ex3 (univariate PSD) and Ex4 (spectrogram) — bivariate
+- **Previous exercises**: Ex7 (univariate PSD) and Ex8 (spectrogram) — bivariate
   spectra build directly on the univariate methods you practiced there.
 - **Packages**: `numpy`, `scipy`, `matplotlib`, `lib/wp7_helpers.py`
   (specifically `wp7_helpers.coherence` and `wp7_helpers.cross_spectrum`)
@@ -60,7 +60,7 @@ lfps = scipy.io.loadmat('path/to/ws_data_1shank.mat')['lfps']
 
 ## Also see
 
-- Site page: [exercises/ex5](../../site/docs/exercises/ex5.md)
+- Site page: [exercises/ex9](../../site/docs/exercises/ex9.md)
 - [Submissions](../../../site/docs/submissions.md) — filename convention
 - `lib/wp7_helpers.py` — `coherence`, `cross_spectrum`, `psd_multitaper`
 

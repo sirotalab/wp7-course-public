@@ -6,100 +6,65 @@
 # to bring our own Python environment.
 #
 # History of CI breakage on this runner (don't reintroduce):
-#   1. First attempt used `python -m pip ...` — failed because gamma2 has
-#      no `python` alias, only `python3`.
-#   2. Second attempt used `python3 -m venv .ci-venv` — failed because the
-#      gamma2 system python3 has no `ensurepip` / `python3-venv` package.
-#   3. Third attempt wrapped the existence check in a shell brace group
-#      `|| { echo ...; exit 1; }` — failed because YAML parses `{` as the
-#      start of a flow-style mapping and collided with the `-` list indicator.
+#   1. python -m pip  — no `python` alias on gamma2, only `python3`.
+#   2. python3 -m venv — no `ensurepip` / `python3-venv` on gamma2.
+#   3. Shell brace groups in YAML — `{` collides with YAML flow mappings.
+#   4. uv installer — modifies ~/.profile with a hardcoded path inside the
+#      build dir; on retry the file is cleaned up and the shell dies.
 #
-# Current approach: **uv**, matching how the outer wp7-course tree handles
-# its TA-side Python tooling (pyproject.toml + uv.lock + .venv/). uv is a
-# single static binary with zero system dependencies — no python3-venv, no
-# conda, no system Python package at all. uv downloads its own standalone
-# Python via `uv python install 3.11`, then `uvx --from mkdocs-material
-# mkdocs build ...` provisions an ephemeral env for one invocation without
-# needing a pyproject.toml inside this public/ repo.
-#
-# The `uv python install` + `uvx` caches are pinned to project-local
-# paths so the runner can't leak between CI jobs or other projects.
+# Current approach: **pixi**. Single static binary, brings its own Python
+# from conda-forge, no system dependencies. The same pixi.toml that ships
+# the student toolchain (datalad + git-annex) also defines a `docs`
+# environment with mkdocs-material for the site build. One tool for
+# everything in public/.
 #
 # This file lives inside the `public/` subdataset of `wp7-course` and drives
-# the GitLab repo `sirotalab/wp7-course-public`. The *outer* wp7-course repo
-# (with solutions, sourcedata, planning docs, roster CSV) is private and has
-# no Pages job — the trust boundary is structural: solutions literally don't
-# exist inside `public/`, so they can't reach the deployed site even by
-# accident.
+# the GitLab repo `sirotalab/wp7-course-public`. The outer wp7-course repo
+# (solutions, sourcedata, planning, roster) is private and has no Pages job —
+# the trust boundary is structural: solutions don't exist inside `public/`.
 #
 # Layout (inside this repo):
 #   ./site/                 mkdocs source (docs_dir = site/docs)
 #   ./course-materials/     student-downloadable files (not served via Pages)
-#
-# Pages serves whatever the `pages` job writes to `./public/` at artifact
-# time. The directory name `public/` is a GitLab Pages convention and is
-# unrelated to the outer project's `public/` subdataset (same git repo
-# viewed from different sides; inside the CI runner there's only one tree).
+#   ./pixi.toml             toolchain definition (student + docs envs)
 #
 # Two jobs:
-#   * `build` — runs on every branch and every merge request, catches broken
-#     markdown / nav / links via `mkdocs build --strict` before review.
-#   * `pages` — runs only on the default branch, deploys the site to Pages.
+#   * `build`  — every branch / MR, catches broken markdown before review.
+#   * `pages`  — default branch only, deploys the site to Pages.
 
 variables:
-  MKDOCS_MATERIAL_SPEC: "mkdocs-material>=9.5,<10"
-  # All uv state lives under the project build dir so the runner can
-  # cache it and nothing leaks into the runner user's $HOME.
-  UV_CACHE_DIR: "$CI_PROJECT_DIR/.cache/uv"
-  UV_PYTHON_INSTALL_DIR: "$CI_PROJECT_DIR/.cache/uv-python"
-  UV_INSTALL_DIR: "$CI_PROJECT_DIR/.ci-uv"
+  # Keep pixi state inside the build dir so nothing leaks into $HOME.
+  PIXI_HOME: "$CI_PROJECT_DIR/.pixi-home"
 
 cache:
-  key: uv-mkdocs
+  key: pixi-mkdocs
   paths:
-    - .cache/uv          # uv package cache (wheels, resolver cache)
-    - .cache/uv-python   # standalone Python interpreters uv downloads
-    - .ci-uv             # uv itself (so re-installs are no-ops on warm cache)
+    - .pixi              # pixi environments (conda packages)
+    - .pixi-home         # pixi global state
 
 default:
   before_script:
-    # Single-quoted YAML scalars so shell $VARs and `|` don't collide with
-    # YAML syntax — same convention used across the whole before_script.
-    #
-    # 1. Bootstrap uv (static binary, zero dependencies). UV_INSTALL_DIR
-    #    redirects the installer target to a project-local dir we control.
-    - 'curl -LsSf https://astral.sh/uv/install.sh | sh'
-    - 'export PATH="$UV_INSTALL_DIR:$PATH"'
-    - 'uv --version'
-    # 2. Fetch a standalone Python build — no python3-venv / ensurepip
-    #    needed from the host. Cached across jobs via UV_PYTHON_INSTALL_DIR.
-    - 'uv python install 3.11'
+    - 'curl -fsSL https://pixi.sh/install.sh | PIXI_HOME="$PIXI_HOME" bash'
+    - 'export PATH="$PIXI_HOME/bin:$PATH"'
+    - 'pixi --version'
 
 stages:
   - build
   - deploy
 
-# Feature-branch + MR build: fails fast on bad markdown, no deploy.
-# `uvx --from mkdocs-material mkdocs ...` provisions an ephemeral env
-# for this one invocation (cached in $UV_CACHE_DIR across jobs), so
-# there's no pyproject.toml needed inside this public/ repo.
 build:
   stage: build
   script:
-    - 'cd site'
-    - 'uvx --from "$MKDOCS_MATERIAL_SPEC" mkdocs build --strict --site-dir /tmp/pages-preview'
+    - 'pixi run -e docs build-preview'
   rules:
     - if: '$CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
-# Default-branch deploy job. GitLab Pages magic: the job must be named
-# `pages` and its artifact must be a directory called `public/` at the
-# repo root. mkdocs builds there directly.
+# GitLab Pages: job must be named `pages`, artifact must be `public/`.
 pages:
   stage: deploy
   script:
-    - 'cd site'
-    - 'uvx --from "$MKDOCS_MATERIAL_SPEC" mkdocs build --strict --site-dir ../public'
+    - 'pixi run -e docs build-site'
   artifacts:
     paths:
       - public

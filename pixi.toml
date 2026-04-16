@@ -1,8 +1,22 @@
-[project]
+[workspace]
 name = "wp7-course-public"
-description = "Student laptop bootstrap — installs datalad + git-annex for course data sync."
+description = "Student laptop bootstrap + CI site build for the WP7 course."
 channels = ["conda-forge"]
 platforms = ["linux-64", "osx-arm64", "osx-64", "win-64"]
 
+# Default environment: student toolchain (datalad + git-annex for course data sync)
 [dependencies]
+python = ">=3.12,<3.13"
 datalad = ">=1.2,<2"
+marimo = ">=0.23"
+
+# Docs environment: mkdocs-material for building the course site (used by CI)
+[feature.docs.dependencies]
+mkdocs-material = ">=9.5,<10"
+
+[environments]
+docs = ["docs"]
+
+[feature.docs.tasks]
+build-site = { cmd = "mkdocs build --strict --site-dir ../public", cwd = "site" }
+build-preview = { cmd = "mkdocs build --strict --site-dir /tmp/pages-preview", cwd = "site" }

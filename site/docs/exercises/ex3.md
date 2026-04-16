@@ -1,16 +1,16 @@
-# Exercise 3 — Univariate spectral analysis
+# Exercise 3 — Modelling neural population activity
 
-Estimate power spectral density using the multitaper method and test for rhythmic activity in single LFP channels. You'll compare Welch and multitaper estimators on 16-channel hippocampal recordings.
+Analyse population-level spiking data: build firing-rate matrices, visualize responses across trials and stimuli, and explore how information is distributed across neurons.
 
 ## At a glance
 
 | | |
 |---|---|
-| **Directory** | `course-materials/exercises/ex3-spectral-univariate/` |
-| **Data** | `ws_data_1shank.mat` (16-ch LFP, 1250 Hz) |
+| **Directory** | `course-materials/exercises/ex3-populations/` |
+| **Data** | `crcns_pvc8/` (same dataset as Ex1) |
 | **Packages** | numpy, scipy, matplotlib |
-| **Helper module** | `wp7_helpers.psd_multitaper` — see `course-materials/lib/wp7_helpers.py` |
-| **Prereqs** | `lectures/sirota/SpectralAnalysis_1_2023.pdf`, `SpectralAnalysis_2_2023.pdf` |
+| **Helper module** | — |
+| **Prereqs** | Mlynarski lecture on neural population activity |
 | **Deadline** | TBD — see [Schedule](../schedule.md) |
 
 ## First steps
@@ -18,7 +18,7 @@ Estimate power spectral density using the multitaper method and test for rhythmi
 ```bash
 conda activate wp7
 mkdir -p ~/<slug>/ex3 && cd ~/<slug>/ex3
-cp /storage2/wp7/course-materials/exercises/ex3-spectral-univariate/starter.ipynb ex3_<slug>.ipynb
+cp /storage2/wp7/course-materials/exercises/ex3-populations/starter.py ex3_<slug>.py
 ```
 
-The starter imports `wp7_helpers` for you. Check the `README.md` for data loading and parameter tips. Prompt: `ex3.pdf`.
+Note: this exercise uses a Python script rather than a notebook. Run it section-by-section in your IDE, or convert with `jupytext --to notebook starter.py`.

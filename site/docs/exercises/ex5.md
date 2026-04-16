@@ -1,16 +1,16 @@
-# Exercise 5 — Bivariate spectral analysis
+# Exercise 5 — Unsupervised structure discovery: clustering
 
-Measure frequency-resolved coupling between pairs of LFP channels using coherence and cross-spectral density. You'll build a null distribution to test whether the coupling you see is real.
+Apply K-means, hierarchical clustering, and mixture models to neural response data. You'll discover cell types from chirp responses and evaluate cluster quality against ground-truth labels.
 
 ## At a glance
 
 | | |
 |---|---|
-| **Directory** | `course-materials/exercises/ex5-bivariate-spectral/` |
-| **Data** | `ws_data_1shank.mat` (same 16-ch LFP as Ex3–4); advanced: `data96.mat` (96-ch) |
-| **Packages** | numpy, scipy, matplotlib |
-| **Helper module** | `wp7_helpers.coherence`, `wp7_helpers.cross_spectrum` — see `course-materials/lib/wp7_helpers.py` |
-| **Prereqs** | All three `lectures/sirota/SpectralAnalysis_*` PDFs |
+| **Directory** | `course-materials/exercises/ex5-clustering/` |
+| **Data** | `chirp_response.npy` (75 MB), `chirp_response_quality.npy`, `group_index.npy` |
+| **Packages** | numpy, scipy, matplotlib, scikit-learn (`KMeans`, `AgglomerativeClustering`, `GaussianMixture`) |
+| **Helper module** | — |
+| **Prereqs** | Mlynarski lecture on clustering and latent variable models |
 | **Deadline** | TBD — see [Schedule](../schedule.md) |
 
 ## First steps
@@ -18,7 +18,7 @@ Measure frequency-resolved coupling between pairs of LFP channels using coherenc
 ```bash
 conda activate wp7
 mkdir -p ~/<slug>/ex5 && cd ~/<slug>/ex5
-cp /storage2/wp7/course-materials/exercises/ex5-bivariate-spectral/starter.ipynb ex5_<slug>.ipynb
+cp /storage2/wp7/course-materials/exercises/ex5-clustering/starter.ipynb ex5_<slug>.ipynb
 ```
 
-This exercise builds on Ex3 and Ex4. See the `README.md` for data paths, the 96-channel bonus option, and tips on interpreting coherence values. Prompt: `ex5.pdf`.
+Check the exercise `README.md` for data paths and tips.

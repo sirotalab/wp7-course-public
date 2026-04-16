@@ -1,4 +1,4 @@
-# Exercise 3 — Univariate Spectral Analysis
+# Exercise 7 — Univariate Spectral Analysis
 
 ## Topic
 
@@ -11,7 +11,7 @@ approaches (Welch, multitaper).
 
 ## Files in this directory
 
-- `ex3.pdf` — the exercise prompt (authored by Anton Sirota)
+- `ex7.pdf` — the exercise prompt (authored by Anton Sirota)
 - `starter.ipynb` — scaffolded notebook (TBD — pending Anton's 2025/2026 updates; see `planning/`)
 - `README.md` — this file
 
@@ -36,7 +36,7 @@ lfps = scipy.io.loadmat('path/to/ws_data_1shank.mat')['lfps']  # (n_samples, 16)
 - **Lectures** (from `lectures/sirota/`):
   - `SpectralAnalysis_1_2023.pdf` — Fourier basics, periodogram, Welch
   - `SpectralAnalysis_2_2023.pdf` — multitaper theory, DPSS tapers
-- **Previous exercises**: Ex1–2 (statistical thinking and data handling)
+- **Previous exercises**: Ex1 and Ex6 (statistical thinking and data handling)
 - **Packages**: `numpy`, `scipy`, `matplotlib`, and `lib/wp7_helpers.py`
   (specifically `wp7_helpers.psd_multitaper`).
   If `ghostipy` is installed, `wp7_helpers` uses it for faster multitaper
@@ -58,6 +58,6 @@ lfps = scipy.io.loadmat('path/to/ws_data_1shank.mat')['lfps']  # (n_samples, 16)
 
 ## Also see
 
-- Site page: [exercises/ex3](../../site/docs/exercises/ex3.md)
+- Site page: [exercises/ex7](../../site/docs/exercises/ex7.md)
 - [Submissions](../../../site/docs/submissions.md) — filename convention
-- `lib/wp7_helpers.py` — thin wrappers used in Ex3--5
+- `lib/wp7_helpers.py` — thin wrappers used in Ex7–9

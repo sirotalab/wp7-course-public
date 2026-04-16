@@ -17,10 +17,14 @@ course-materials/
 │   └── mlynarski/            # Wiktor's lecture PDFs
 ├── exercises/
 │   ├── ex1-bootstrap/
-│   ├── ex2-dimred/
-│   ├── ex3-spectral-univariate/
-│   ├── ex4-spectral-timeresolved/
-│   └── ex5-bivariate-spectral/
+│   ├── ex2-encoding/
+│   ├── ex3-populations/
+│   ├── ex4-decoding/
+│   ├── ex5-clustering/
+│   ├── ex6-dimred/
+│   ├── ex7-spectral-univariate/
+│   ├── ex8-spectral-timeresolved/
+│   └── ex9-bivariate-spectral/
 ├── notebooks/                # reference / exploratory notebooks
 └── lib/                      # shared helper modules (wp7_helpers)
 ```

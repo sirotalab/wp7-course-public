@@ -28,7 +28,8 @@ Create one sub-directory per exercise:
 
 ```
 /storage2/wp7/<slug>/ex1/
-/storage2/wp7/<slug>/ex2/
+/storage2/wp7/<slug>/ex6/
+/storage2/wp7/<slug>/ex7/
 ...
 ```
 

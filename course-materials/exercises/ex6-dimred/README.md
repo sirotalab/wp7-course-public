@@ -1,4 +1,4 @@
-# Exercise 2 — Dimensionality Reduction
+# Exercise 6 — Dimensionality Reduction
 
 ## Topic
 
@@ -12,7 +12,7 @@ conditions.
 
 ## Files in this directory
 
-- `ex2.pdf` — the exercise prompt (authored by Anton Sirota)
+- `ex6.pdf` — the exercise prompt (authored by Anton Sirota)
 - `starter.ipynb` — scaffolded notebook (TBD — pending Anton's 2025/2026 updates; see `planning/`)
 - `README.md` — this file
 
@@ -56,5 +56,5 @@ before applying dimensionality reduction.
 
 ## Also see
 
-- Site page: [exercises/ex2](../../site/docs/exercises/ex2.md)
+- Site page: [exercises/ex6](../../site/docs/exercises/ex6.md)
 - [Submissions](../../../site/docs/submissions.md) — filename convention
