@@ -1,6 +1,6 @@
 # WP7 — Machine Learning & Analysis of Neural Data
 
-Welcome! WP7 is the *Machine Learning & Analysis of Neural Data* practicum in the **Graduate School of Systemic Neurosciences (GSN)** programme, where you'll learn to wrangle real neural recordings — from spike trains to hippocampal LFPs. If you're new here, head straight to the **[Quick start](quickstart.md)** — it's the 5-minute path from "I just enrolled" to "my first exercise is running on the HPC."
+WP7 is the *Machine Learning & Analysis of Neural Data* practicum in the **Graduate School of Systemic Neurosciences (GSN)** programme. You'll work with real neural recordings — spike trains, hippocampal LFPs, and more. New here? → **[Quick start](quickstart.md)**.
 
 ## Lecturers
 
@@ -21,13 +21,10 @@ Welcome! WP7 is the *Machine Learning & Analysis of Neural Data* practicum in th
 - **[Exercises](exercises/index.md)** — problem sets and starter notebooks
 - **[Submissions](submissions.md)** — how and where to submit your work
 
-!!! tip "LMU Biology cloud (lecture slides + exercise resources)"
-    Wiktor and Anton share the original slides and some exercise resources via a shared LMU Biology cloud folder:
-    **<https://cloud.biologie.uni-muenchen.de/index.php/s/gWECcZFo8MLYLWL>**
-
-    This site mirrors the student-facing versions, but the Biology cloud is the canonical upstream — if something's out of date here, check there first and tell your TA.
+!!! tip "Canonical upstream"
+    Slides and some exercise resources live in the LMU Biology cloud:
+    **<https://cloud.biologie.uni-muenchen.de/index.php/s/gWECcZFo8MLYLWL>**.
+    This site mirrors the student-facing versions — if something's out of date here, check there first and tell your TA.
 
 !!! note "Course materials on HPC"
-    All course files are also mirrored on the HPC filesystem at
-    `/storage2/wp7/course-materials/` (read-only). Off-HPC? You can also
-    `datalad clone` the materials — see the [setup pages](setup/ssh.md).
+    Mirrored read-only at `/storage2/wp7/course-materials/`. Off-HPC? [Clone to your laptop with DataLad](setup/datalad.md).

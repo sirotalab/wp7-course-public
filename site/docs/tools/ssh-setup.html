@@ -51,34 +51,22 @@
     .kbd{display:inline-block; border:1px solid var(--border); border-bottom-color:#0a0f22; background:#0e1530; border-radius:6px; padding:0 6px; font:600 12px/20px ui-monospace,monospace}
     a{color:var(--accent)}
 
-    /* Assignment widget */
+    /* Registration CTA */
     .assign{padding:18px 28px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:rgba(122,162,255,.03)}
     .assign h2{margin-top:0}
-    .assign label{display:block; margin:10px 0 4px; color:#a9b6e8; font-weight:600; font-size:14px}
-    .assign textarea, .assign input[type="text"]{
-      width:100%; background:var(--code-bg); border:1px solid var(--code-border); color:var(--text);
-      border-radius:10px; padding:10px 12px; font:0.95rem ui-monospace, SFMono-Regular, Menlo, monospace;
+    .assign .cta{
+      display:inline-block; margin-top:8px; text-decoration:none;
+      background:linear-gradient(180deg,#2b3f8a,#1b2766); color:white; border:1px solid #3a4ea0;
+      padding:12px 22px; border-radius:10px; font-weight:600;
     }
-    .assign textarea{min-height:120px; resize:vertical}
-    .assign button{
-      margin-top:10px; background:linear-gradient(180deg,#2b3f8a,#1b2766); color:white; border:1px solid #3a4ea0;
-      padding:10px 18px; border-radius:10px; cursor:pointer; font-weight:600;
-    }
-    .assign button:hover{background:linear-gradient(180deg,#3550a8,#223184)}
-    .result{margin-top:14px; padding:14px; border-radius:12px; background:rgba(86,228,200,.06); border:1px solid rgba(86,228,200,.2); display:none}
-    .result.show{display:block}
-    .result.err{background:rgba(255,120,120,.08); border-color:rgba(255,120,120,.25)}
-    .result strong{color:var(--accent2); font-size:1.1em}
-    .result .os-selector{margin-top:10px}
-    .result .os-selector button{margin-right:6px; padding:6px 12px; font-size:0.9em}
-    .result pre{margin-top:10px}
+    .assign .cta:hover{background:linear-gradient(180deg,#3550a8,#223184)}
   </style>
 </head>
 <body>
   <div class="wrap card">
     <header>
       <h1>WP7 — SSH Access Setup</h1>
-      <p class="note">Enter your name below to get your assigned account and a personalized SSH config snippet. The commands below are tailored to your operating system — pick the matching tab.</p>
+      <p class="note">Register once via the Google Form below — your TA will assign you a shared <code>ephysNN</code> account and email back your login details. The commands further down are tailored to your operating system; pick the matching tab once you have your account.</p>
     </header>
 
     <section class="meta">
@@ -88,20 +76,11 @@
       <div class="kv"><b>Shared accounts</b> ephys01 … ephys10</div>
     </section>
 
-    <!-- Interactive assignment widget -->
+    <!-- Registration CTA -->
     <section class="assign">
-      <h2>🎯 Your account</h2>
-      <p class="note">Paste the cohort roster (one full name per line — your TA will share it in the course chat) and type your own name to look up which <code>ephysNN</code> account you share.</p>
-
-      <label for="roster">Cohort roster (one name per line)</label>
-      <textarea id="roster" placeholder="Alice Abel&#10;Bob Brahe&#10;Carmen Curie&#10;…"></textarea>
-
-      <label for="yourName">Your full name (or any distinctive part)</label>
-      <input id="yourName" type="text" placeholder="e.g. Carmen" autocomplete="off" />
-
-      <button id="lookupBtn">Look up my account</button>
-
-      <div id="result" class="result"></div>
+      <h2>📝 Register for an account</h2>
+      <p class="note">Fill in the short Google Form with your full name and email. Once registration closes, the TA processes the roster and emails you your <code>ephysNN</code> account, temporary password, and a ready-to-paste SSH config snippet.</p>
+      <a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLSckL7JIbo8q2rmPDiNdtTqTxnebhES4VhHBS6N17X9iIcNPUA/viewform" target="_blank" rel="noopener">Open registration form →</a>
     </section>
 
     <section class="tabs">
@@ -118,13 +97,13 @@
             <div>
               <h2>What you will do</h2>
               <ol>
-                <li>Look up your <code>ephysNN</code> account above.</li>
+                <li>Submit the registration form above — the TA will email you back your <code>ephysNN</code> account and a temporary password.</li>
                 <li>Generate an SSH key on your laptop.</li>
                 <li>Add a <code>Host gamma3</code> entry to your SSH config.</li>
                 <li>First login with your temporary password.</li>
                 <li>Install your public key for password-less login.</li>
               </ol>
-              <div class="callout"><strong>Tip:</strong> The assignment rule is alphabetical fair-share — same rule for any cohort size, so you can sanity-check it yourself. See the quick-start page for the Python version.</div>
+              <div class="callout"><strong>Heads up:</strong> Accounts are shared (<code>ephys01 … ephys10</code>) and assigned by the TA after registration closes. You'll receive your credentials by email once the roster is processed.</div>
             </div>
             <div>
               <h2>Server details</h2>
@@ -132,7 +111,7 @@
   HostName 10.153.170.43
   User ephysXX
   Port 22</code></pre>
-              <p class="note">Replace <code>ephysXX</code> with the account from the widget above.</p>
+              <p class="note">Replace <code>ephysXX</code> with the account in the TA's reply email.</p>
             </div>
           </div>
         </div>
@@ -146,7 +125,7 @@
 
           <h3>2) Edit your SSH config</h3>
           <pre><code>nano ~/.ssh/config</code></pre>
-          <p>Paste the snippet from the widget above (the one with your <code>ephysNN</code> filled in). Save with <span class="kbd">Ctrl</span>+<span class="kbd">O</span>, <span class="kbd">Enter</span>, then <span class="kbd">Ctrl</span>+<span class="kbd">X</span>.</p>
+          <p>Paste the snippet from the TA's email (the one with your <code>ephysNN</code> filled in). Save with <span class="kbd">Ctrl</span>+<span class="kbd">O</span>, <span class="kbd">Enter</span>, then <span class="kbd">Ctrl</span>+<span class="kbd">X</span>.</p>
 
           <h3>3) First login (with password)</h3>
           <pre><code>ssh gamma3</code></pre>
@@ -167,7 +146,7 @@
 
           <h3>2) Edit your SSH config</h3>
           <pre><code>nano ~/.ssh/config</code></pre>
-          <p>Paste the snippet from the widget above. Make sure <code>~/.ssh</code> has mode <code>700</code>, otherwise ssh will refuse to use it:</p>
+          <p>Paste the snippet from the TA's email. Make sure <code>~/.ssh</code> has mode <code>700</code>, otherwise ssh will refuse to use it:</p>
           <pre><code>chmod 700 ~/.ssh
 chmod 600 ~/.ssh/config</code></pre>
 
@@ -190,7 +169,7 @@ chmod 600 ~/.ssh/config</code></pre>
           <p>Default location is <code>C:\Users\&lt;you&gt;\.ssh\id_ed25519</code>.</p>
 
           <h3>2) Edit your SSH config</h3>
-          <p>Create (or edit) <code>C:\Users\&lt;you&gt;\.ssh\config</code> in Notepad and paste the snippet from the widget above.</p>
+          <p>Create (or edit) <code>C:\Users\&lt;you&gt;\.ssh\config</code> in Notepad and paste the snippet from the TA's email.</p>
 
           <h3>3) First login (with password)</h3>
           <pre><code>ssh gamma3</code></pre>
@@ -231,81 +210,6 @@ chmod 600 ~/.ssh/authorized_keys</code></pre>
       if(valid.includes(h)) select(h);
     });
 
-    // ------- Fair-share assignment algorithm -------
-    function assignAccounts(roster, nAccounts = 10) {
-      // Sort alphabetically, case-insensitive, using the same rule as the Python reference.
-      const sorted = [...roster].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
-      const n = sorted.length;
-      const base = Math.floor(n / nAccounts);
-      const extra = n % nAccounts;   // first `extra` accounts get base+1 students
-      const out = {};
-      let idx = 0;
-      for (let acct = 1; acct <= nAccounts; acct++) {
-        const size = base + (acct <= extra ? 1 : 0);
-        for (let k = 0; k < size && idx < n; k++, idx++) {
-          out[sorted[idx]] = 'ephys' + String(acct).padStart(2, '0');
-        }
-      }
-      return out;
-    }
-
-    // ------- Lookup widget -------
-    const rosterEl = document.getElementById('roster');
-    const nameEl = document.getElementById('yourName');
-    const btn = document.getElementById('lookupBtn');
-    const resultEl = document.getElementById('result');
-
-    // Persist roster across page reloads so TAs can leave it pasted in a shared link.
-    const STORAGE_KEY = 'wp7-roster';
-    rosterEl.value = localStorage.getItem(STORAGE_KEY) || '';
-    rosterEl.addEventListener('input', () => localStorage.setItem(STORAGE_KEY, rosterEl.value));
-
-    function renderResult(student, account) {
-      const config = 'Host gamma3\n  HostName 10.153.170.43\n  User ' + account + '\n  Port 22\n\nHost theta\n  HostName 10.153.170.1\n  User ' + account + '\n  Port 22\n\nHost beta\n  HostName 10.153.170.3\n  User ' + account + '\n  Port 22';
-      resultEl.classList.remove('err');
-      resultEl.classList.add('show');
-      resultEl.innerHTML =
-        '<p>Hi <strong>' + escapeHtml(student) + '</strong> — your account is <strong>' + account + '</strong>.</p>' +
-        '<p>Paste this into your SSH config file (see the OS tab below for where that lives):</p>' +
-        '<pre><code>' + escapeHtml(config) + '</code></pre>';
-    }
-    function renderError(msg) {
-      resultEl.classList.add('err', 'show');
-      resultEl.innerHTML = '<p>' + escapeHtml(msg) + '</p>';
-    }
-    function escapeHtml(s) {
-      return s.replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-    }
-
-    btn.addEventListener('click', () => {
-      const roster = rosterEl.value.split('\n').map(s => s.trim()).filter(Boolean);
-      const query = nameEl.value.trim().toLowerCase();
-
-      if (roster.length === 0) {
-        renderError('Paste the cohort roster first (one full name per line).');
-        return;
-      }
-      if (!query) {
-        renderError('Type at least part of your name to look yourself up.');
-        return;
-      }
-
-      const assignments = assignAccounts(roster);
-      const matches = Object.keys(assignments).filter(n => n.toLowerCase().includes(query));
-
-      if (matches.length === 0) {
-        renderError('No name matches "' + nameEl.value + '" in the roster. Check the spelling, or paste a longer piece of your name.');
-        return;
-      }
-      if (matches.length > 1) {
-        renderError('Multiple matches: ' + matches.join(', ') + '. Type more of your name to disambiguate.');
-        return;
-      }
-      renderResult(matches[0], assignments[matches[0]]);
-    });
-
-    // Enter key on the name field triggers the lookup
-    nameEl.addEventListener('keydown', e => { if (e.key === 'Enter') btn.click(); });
   </script>
 </body>
 </html>

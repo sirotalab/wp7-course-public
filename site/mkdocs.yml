@@ -42,6 +42,7 @@ nav:
       - VS Code Remote: setup/vscode.md
       - Conda environment: setup/conda.md
       - HPC workspace: setup/workspace.md
+      - Clone to laptop (DataLad): setup/datalad.md
   - Lectures: lectures.md
   - Exercises:
       - Overview: exercises/index.md
