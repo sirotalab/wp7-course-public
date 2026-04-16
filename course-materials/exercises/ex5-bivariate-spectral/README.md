@@ -63,7 +63,6 @@ lfps = scipy.io.loadmat('path/to/ws_data_1shank.mat')['lfps']
 - Site page: [exercises/ex5](../../site/docs/exercises/ex5.md)
 - [Submissions](../../../site/docs/submissions.md) — filename convention
 - `lib/wp7_helpers.py` — `coherence`, `cross_spectrum`, `psd_multitaper`
-- `lib/mtcsd.py` — full multitaper cross-spectral density matrix (all pairs)
 
 ## Advanced: 96-channel dataset
 

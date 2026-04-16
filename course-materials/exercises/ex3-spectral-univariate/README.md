@@ -39,8 +39,8 @@ lfps = scipy.io.loadmat('path/to/ws_data_1shank.mat')['lfps']  # (n_samples, 16)
 - **Previous exercises**: Ex1–2 (statistical thinking and data handling)
 - **Packages**: `numpy`, `scipy`, `matplotlib`, and `lib/wp7_helpers.py`
   (specifically `wp7_helpers.psd_multitaper`).
-  If `mne` is not yet installed, `wp7_helpers` falls back to `scipy.signal`
-  automatically — see `lib/wp7_helpers.py` module docstring.
+  If `ghostipy` is installed, `wp7_helpers` uses it for faster multitaper
+  computation; otherwise it falls back to `scipy.signal` automatically.
 
 ## Tips
 
@@ -60,5 +60,4 @@ lfps = scipy.io.loadmat('path/to/ws_data_1shank.mat')['lfps']  # (n_samples, 16)
 
 - Site page: [exercises/ex3](../../site/docs/exercises/ex3.md)
 - [Submissions](../../../site/docs/submissions.md) — filename convention
-- `lib/mtcsd.py` — full multitaper cross-spectral density matrix (all channel pairs)
-- `lib/wp7_helpers.py` — thin wrappers used in Ex3–5
+- `lib/wp7_helpers.py` — thin wrappers used in Ex3--5

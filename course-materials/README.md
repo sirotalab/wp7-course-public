@@ -22,7 +22,7 @@ course-materials/
 │   ├── ex4-spectral-timeresolved/
 │   └── ex5-bivariate-spectral/
 ├── notebooks/                # reference / exploratory notebooks
-└── lib/                      # shared helper modules (mtcsd, mtchd)
+└── lib/                      # shared helper modules (wp7_helpers)
 ```
 
 ## 2026 cohort ephys-login assignment

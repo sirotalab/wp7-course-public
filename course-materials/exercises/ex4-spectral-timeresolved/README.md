@@ -63,4 +63,3 @@ lfps = scipy.io.loadmat('path/to/ws_data_1shank.mat')['lfps']
 - Site page: [exercises/ex4](../../site/docs/exercises/ex4.md)
 - [Submissions](../../../site/docs/submissions.md) — filename convention
 - `lib/wp7_helpers.py` — `spectrogram_multitaper` and `psd_multitaper`
-- `lib/mtcsd.py` — multitaper cross-spectral density (all channel pairs)
