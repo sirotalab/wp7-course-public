@@ -43,6 +43,7 @@ nav:
       - Conda environment: setup/conda.md
       - HPC workspace: setup/workspace.md
       - Clone to laptop (DataLad): setup/datalad.md
+      - How the data flows: setup/infrastructure.md
   - Lectures: lectures.md
   - Exercises:
       - Overview: exercises/index.md

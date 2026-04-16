@@ -26,5 +26,5 @@ WP7 is the *Machine Learning & Analysis of Neural Data* practicum in the **Gradu
     **<https://cloud.biologie.uni-muenchen.de/index.php/s/gWECcZFo8MLYLWL>**.
     This site mirrors the student-facing versions — if something's out of date here, check there first and tell your TA.
 
-!!! note "Course materials on HPC"
-    Mirrored read-only at `/storage2/wp7/course-materials/`. Off-HPC? [Clone to your laptop with DataLad](setup/datalad.md).
+!!! note "Course materials & your work"
+    Materials are read-only at `/storage2/wp7/course-materials/` on the HPC. Want a local copy? [Clone to your laptop with DataLad](setup/datalad.md) — you can also sync your own work between HPC and laptop.

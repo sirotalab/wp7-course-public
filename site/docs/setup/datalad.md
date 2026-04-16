@@ -1,16 +1,36 @@
-# Clone the course materials to your laptop
+# Sync course data to your laptop
 
-You don't *have* to do this — working directly on the HPC via [VS Code Remote-SSH](vscode.md) is the main path. But if you want an offline copy for travel, train rides, or just a local git history of the course, the materials are published as a [DataLad](https://www.datalad.org/) dataset you can clone over SSH.
+You don't *have* to do this — working directly on the HPC via [VS Code Remote-SSH](vscode.md) is the main path. But if you want an offline copy for travel, train rides, or a local history of the course, everything is published as [DataLad](https://www.datalad.org/) datasets you can clone over SSH.
 
-!!! info "One-way mirror"
-    The clone is **read-only from your side**. You can `datalad update` to pull the TA's changes, but you cannot push back. If you want to version your own work, commit locally and push to a repo **you own** — never back to the lab.
+There are two independent data flows:
+
+| Flow | What | Direction |
+|------|------|-----------|
+| **Course materials** | Lectures, exercise starters, helper modules | TA → you (read-only) |
+| **Your work** | Your notebooks, outputs, reports | HPC ↔ laptop (bidirectional) |
+
+Both use **datalad** on your laptop. The setup below covers installing the toolchain and cloning both flows.
+
+---
 
 ## Prerequisites
 
-1. SSH to `beta` is working passwordless (finish [SSH setup](ssh.md) first — verify with `ssh beta exit`).
-2. DataLad and git-annex are installed on your laptop:
+1. SSH to the lab gateway is working passwordless (finish [SSH setup](ssh.md) first — verify with `ssh beta exit`).
+2. Install **datalad** and **git-annex** on your laptop:
 
-    === "Linux / macOS (conda)"
+    === "pixi (recommended, cross-platform)"
+
+        [pixi](https://pixi.sh) is a single-binary package manager that installs datalad + git-annex from conda-forge with no existing Python or conda needed.
+
+        ```bash
+        # Install pixi (one-time):
+        curl -fsSL https://pixi.sh/install.sh | bash
+
+        # Install datalad (pulls git-annex automatically):
+        pixi global install datalad
+        ```
+
+    === "conda / mamba"
 
         ```bash
         conda install -c conda-forge datalad
@@ -31,14 +51,20 @@ You don't *have* to do this — working directly on the HPC via [VS Code Remote-
 
     === "Windows"
 
-        Use WSL2 and follow the Linux instructions. Native Windows works but is finicky — we don't support it.
+        Use WSL2 and follow the Linux or pixi instructions. Native Windows works but is finicky — we don't support it.
 
     Verify with `datalad --version` and `git annex version`.
 
-## 1. Clone the superdataset
+---
+
+## Flow 1 — Course materials (read-only)
+
+This gives you a clone of the course materials: lectures, exercise starters, notebooks, and helper modules. You can pull updates but you cannot push back — it's a one-way mirror.
+
+### 1. Clone
 
 ```bash
-datalad clone ria+ssh://beta:/storage2/wp7/ria-store#~wp7-course-public wp7-course
+datalad clone ria+ssh://beta:/storage/share/git/ria-store#~wp7-course-public wp7-course
 cd wp7-course
 ```
 
@@ -46,10 +72,10 @@ This pulls the tree structure and git history (~a few MB) but **not** the large 
 
 The `beta` hostname resolves via your `~/.ssh/config` (the `Host beta` entry from [SSH setup](ssh.md#2-configure-sshconfig)), so your ephys account and IP are used automatically.
 
-## 2. Fetch content on demand
+### 2. Fetch content on demand
 
 ```bash
-# Just the lecture slides (~71 MB)
+# Just the lecture slides
 datalad get course-materials/lectures/
 
 # All exercise materials, notebooks, helper modules
@@ -59,56 +85,90 @@ datalad get course-materials/exercises/ course-materials/notebooks/ course-mater
 datalad get .
 ```
 
-`datalad get` is how annexed content actually arrives on disk. Run it on whichever subtree you care about; re-run after `datalad update` to pull changed files.
+`datalad get` is how annexed content actually arrives on disk. Run it on whichever subtree you care about; re-run after updates to pull changed files.
 
-## 3. Stay up to date
+### 3. Stay up to date
 
-When the TA pushes a new starter notebook or a lecture fix:
+When the TA pushes new material:
 
 ```bash
 datalad update --merge
-datalad get course-materials/     # re-pull anything that changed
+datalad get .     # re-pull anything that changed
 ```
 
-`datalad update --merge` is the datalad equivalent of `git pull` for both the superdataset and any subdatasets. It's non-destructive as long as you haven't committed over the upstream history.
-
-## 4. Free up space
+### 4. Free up space
 
 ```bash
-# Drop the local copy of annexed content you no longer need.
-# The tree stays; run `datalad get` to pull it back later.
+# Drop annexed content you no longer need (the tree stays; re-get later):
 datalad drop course-materials/lectures/
 
-# Or nuke the whole clone:
+# Or remove the whole clone:
 cd ..
 datalad remove -d wp7-course
 ```
 
-## 5. Work on your own copy
+---
 
-Inside the clone, you can `git commit` or `datalad save` on top of the course history — reshuffle files, take notes, add scratch notebooks. None of it goes back to the lab.
+## Flow 2 — Your work (bidirectional sync)
 
-If you want your own work versioned elsewhere, add a personal git remote (a private GitLab project, a bare repo on a USB stick, whatever) and push there:
+This syncs your personal exercise notebooks and outputs between the HPC and your laptop. Each student has their own dataset — there is no cross-contamination between students, even if you share an `ephysNN` login.
+
+!!! info "Your TA initializes the HPC side"
+    The TA creates a datalad dataset in your work directory (`/storage2/wp7/<your-slug>/`) at the start of the course. You just clone it.
+
+### 1. Clone your work directory
 
 ```bash
-git remote add personal git@gitlab.lrz.de:<you>/wp7-notes.git
-git push personal main
+datalad clone ssh://gamma3:/storage2/wp7/<your-slug>/ ~/wp7-work
+cd ~/wp7-work
+datalad get .
 ```
 
-The lab's `origin` stays read-only; your `personal` remote is yours.
+Replace `<your-slug>` with your first-last name slug (e.g. `alice-abel`). The `gamma3` hostname resolves via the same `~/.ssh/config` you set up for the course.
+
+### 2. After working on the HPC — pull to laptop
+
+```bash
+cd ~/wp7-work
+datalad update --merge
+datalad get .
+```
+
+### 3. After working on your laptop — push to HPC
+
+```bash
+cd ~/wp7-work
+datalad save -m "local edits"
+datalad push --to origin
+```
+
+Both directions use the existing SSH key. No new credentials, no extra infrastructure.
+
+### What gets version-tracked?
+
+| Type | Stored in |
+|------|-----------|
+| `.ipynb`, `.py`, `.md`, `.csv`, `.txt` | Plain git (readable diffs) |
+| `.mat`, `.npy`, large figures, binary outputs | git-annex (content-addressed, deduped) |
+
+This split is automatic — the dataset is configured with `text2git` so text files are always diffable.
+
+---
 
 ## Troubleshooting
 
 | Symptom | Fix |
 |---|---|
-| `Permission denied (publickey)` | Your key isn't on `beta`. Re-run `ssh-copy-id beta` from [SSH setup step 4](ssh.md#4-install-your-public-key). |
-| `datalad: command not found` after install | Restart your shell, or check that your conda/pipx bin dir is on `$PATH`. |
-| `git-annex: not found` | Install `git-annex` separately — `conda install -c conda-forge git-annex` or your distro package manager. |
+| `Permission denied (publickey)` | Your key isn't on the server. Re-run `ssh-copy-id beta` from [SSH setup step 4](ssh.md#4-install-your-public-key-so-you-dont-retype-the-password). |
+| `datalad: command not found` after install | Restart your shell, or check that pixi/conda bin dir is on `$PATH`. |
+| `git-annex: not found` | If you used pipx, install `git-annex` separately — `pixi global install git-annex` or your distro package manager. |
 | `ERROR: ria+ssh:// … not found` | Double-check the alias spelling: `#~wp7-course-public` (tilde is literal). |
-| First `datalad get` feels slow | It's serial by default over SSH. Add `--jobs 4` to parallelize: `datalad get -J 4 course-materials/`. |
-| `Host key verification failed` | First time connecting via datalad's SSH. Run `ssh beta exit` once interactively to accept the host key, then retry. |
+| First `datalad get` feels slow | It's serial by default. Add `--jobs 4` to parallelize: `datalad get -J 4 .` |
+| `Host key verification failed` | First time via datalad's SSH. Run `ssh beta exit` once interactively to accept the host key, then retry. |
+| Flow 2 push rejected | Someone else on the same `ephysNN` account may have pushed. Run `datalad update --merge` first, then retry. |
 
 ## Where to go next
 
+- [How the data flows](infrastructure.md) — architecture diagrams and step-by-step walkthrough of what happens when material gets published or you sync your work.
 - Back to the [Quick start](../quickstart.md) if you just wanted an overview.
-- [VS Code Remote-SSH](vscode.md) is still the recommended way to *do* the exercises — your local clone is best for reading and experimenting, not for running notebooks that need the lab datasets.
+- [VS Code Remote-SSH](vscode.md) is the recommended way to *run* the exercises — your local clone is best for reading and as a backup.

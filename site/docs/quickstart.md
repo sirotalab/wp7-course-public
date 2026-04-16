@@ -60,6 +60,45 @@ See [Submissions](submissions.md) — it's a filename convention, nothing fancy.
 
 ---
 
+## Optional — sync to your laptop
+
+You can work entirely on the HPC (steps 1–6 are all you need). But if you want a local copy for offline reading or a backup of your own work, install [DataLad](https://www.datalad.org/) on your laptop and clone over SSH. There are two independent flows:
+
+### Install datalad (once)
+
+The fastest cross-platform method is [pixi](https://pixi.sh):
+
+```bash
+curl -fsSL https://pixi.sh/install.sh | bash   # install pixi
+pixi global install datalad                      # installs datalad + git-annex
+```
+
+Alternatives (conda, Homebrew, pipx) are listed on the [DataLad setup](setup/datalad.md#prerequisites) page.
+
+### Clone course materials (read-only)
+
+```bash
+datalad clone ria+ssh://beta:/storage/share/git/ria-store#~wp7-course-public wp7-course
+cd wp7-course
+datalad get .
+```
+
+Pull updates any time with `datalad update --merge && datalad get .`
+
+### Clone your HPC work (bidirectional)
+
+```bash
+datalad clone ssh://gamma3:/storage2/wp7/<your-slug>/ ~/wp7-work
+cd ~/wp7-work
+datalad get .
+```
+
+After working on HPC, pull with `datalad update --merge`. After working on your laptop, push with `datalad save -m "..." && datalad push --to origin`.
+
+Full walkthrough for both flows: **[DataLad setup](setup/datalad.md)**.
+
+---
+
 ## Cheat sheet
 
 | Need | Where |
@@ -68,7 +107,8 @@ See [Submissions](submissions.md) — it's a filename convention, nothing fancy.
 | VS Code Remote-SSH | [Setup → VS Code Remote](setup/vscode.md) |
 | Conda environment | [Setup → Conda](setup/conda.md) |
 | Per-student workspace | [Setup → HPC workspace](setup/workspace.md) |
-| Clone to laptop (offline) | [Setup → DataLad](setup/datalad.md) |
+| Sync to laptop (DataLad) | [Setup → DataLad](setup/datalad.md) |
+| Architecture & data flows | [Setup → How the data flows](setup/infrastructure.md) |
 | Schedule | [Schedule](schedule.md) |
 | Exercises | [Exercises](exercises/index.md) |
 | Submissions | [Submissions](submissions.md) |

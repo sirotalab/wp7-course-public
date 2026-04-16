@@ -26,3 +26,4 @@ __pycache__/
 # commit the build output — Pages reads it as a job artifact.
 /public/
 /site_build/
+/site/site/

@@ -32,7 +32,16 @@ Create one sub-directory per exercise:
 ...
 ```
 
-The TA picks up your submissions from there at grading time — no git push, no upload, no Gradescope. See [Submissions](../submissions.md) for the naming convention.
+The TA picks up your submissions from there at grading time. See [Submissions](../submissions.md) for the naming convention.
+
+## Your workspace is a DataLad dataset
+
+The TA initializes your workspace as a [DataLad](https://www.datalad.org/) dataset at the start of the course. This means you can clone it to your laptop and sync changes in both directions over SSH — useful as a backup or for working offline.
+
+- Text files (`.ipynb`, `.py`, `.md`) are tracked in plain git — you get readable diffs.
+- Large binary files (`.mat`, `.npy`, figures) go through git-annex — content-addressed, deduped.
+
+If you want to use this, see the [DataLad setup](datalad.md#flow-2-your-work-bidirectional-sync) page. It's entirely optional — you can ignore datalad and just work on the HPC via VS Code.
 
 ## Why peer reads are open
 

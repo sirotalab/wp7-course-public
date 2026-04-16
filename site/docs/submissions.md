@@ -24,7 +24,15 @@ By the deadline shown on the [Schedule](schedule.md). Dates will be posted befor
 
 ## How
 
-Just save the file. The TA reads from the same filesystem — there's no upload, no commit-and-push, no submit button.
+Just save the file. The TA reads from the same filesystem — there's no upload form or submit button.
+
+If you work on your laptop via [DataLad sync](setup/datalad.md#flow-2-your-work-bidirectional-sync), push your finished notebook back to the HPC before the deadline:
+
+```bash
+cd ~/wp7-work
+datalad save -m "submit ex1"
+datalad push --to origin
+```
 
 ## What the TA expects
 
