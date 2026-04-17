@@ -11,8 +11,7 @@ statistic, even when you cannot derive an analytic null distribution.
 
 ## Files in this directory
 
-- `ex1.pdf` — the exercise prompt (authored by Anton Sirota)
-- `starter.ipynb` — scaffolded notebook (TBD — pending Anton's 2025/2026 updates; see `planning/`)
+- `starter.ipynb` — Neuromatch-style scaffolded notebook (Wiktor's format — questions embedded in notebook cells)
 - `README.md` — this file
 
 ## Data
@@ -29,8 +28,7 @@ times for one or more neurons recorded during visual stimulation.  Load with
 
 ## Prerequisites
 
-- **Lectures**: no dedicated WP7 lecture — review basic probability and
-  hypothesis testing (any intro stats / neural data analysis reading)
+- **Lectures**: Wiktor — Introduction & nonparametric testing (Lec 01a, 01b)
 - **Previous exercises**: none (Ex1 is the entry point)
 - **Packages**: `numpy`, `scipy` (especially `scipy.stats`), `matplotlib`, `tqdm`
 
