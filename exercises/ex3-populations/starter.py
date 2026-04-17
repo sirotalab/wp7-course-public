@@ -37,7 +37,7 @@ import scipy.io
 from sklearn.decomposition import PCA
 
 # load data
-filepath = "../data/crcns_pvc8/1.mat"
+filepath = "../../data/crcns_pvc8/1.mat"
 mat = scipy.io.loadmat(filepath)
 
 
