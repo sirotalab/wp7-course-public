@@ -36,7 +36,7 @@ lfps = scipy.io.loadmat('../data/spectral/ws_data_1shank.mat')['lfps']  # (n_sam
 - **Lectures** (from `lectures/sirota/`):
   - `SpectralAnalysis_1_2023.pdf` — Fourier basics, periodogram, Welch
   - `SpectralAnalysis_2_2023.pdf` — multitaper theory, DPSS tapers
-- **Previous exercises**: Ex1 and Ex6 (statistical thinking and data handling)
+- **Previous exercises**: Ex1–6 (statistical thinking, data handling, PCA)
 - **Packages**: `numpy`, `scipy`, `matplotlib`, and `lib/wp7_helpers.py`
   (specifically `wp7_helpers.psd_multitaper`).
   If `ghostipy` is installed, `wp7_helpers` uses it for faster multitaper
