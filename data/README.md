@@ -9,8 +9,8 @@ On the HPC these are already present. If you cloned with DataLad, run
 |-----------|----------|------|---------|
 | `crcns_pvc8/` | V1 population spiking (10 sessions) | 305 MB | Ex1, Ex3, Ex4 |
 | `data_RGCs/` | Retinal ganglion cell recordings | 1.7 MB | Ex2 |
-| `clustering/` | Chirp responses + ground-truth labels | 72 MB | Ex5 |
-| `spectral/` | Hippocampal LFP + spike waveforms | 49 MB | Ex6, Ex7, Ex8, Ex9 |
+| `spectral/` | Spike waveshapes + hippocampal LFP | 49 MB | Ex5, Ex6, Ex7, Ex8, Ex9 |
+| `clustering/` | Chirp responses + ground-truth labels | 72 MB | Ex10 |
 
 ## Loading
 
@@ -18,11 +18,11 @@ On the HPC these are already present. If you cloned with DataLad, run
 import scipy.io
 import numpy as np
 
-# .mat files (Ex1-4, Ex6-9)
-data = scipy.io.loadmat('../data/crcns_pvc8/1.mat')
+# .mat files (Ex1-4, Ex5-9)
+data = scipy.io.loadmat('../../data/crcns_pvc8/1.mat')
 
-# .npy files (Ex5)
-chirp = np.load('../data/clustering/chirp_response.npy')
+# .npy files (Ex10)
+chirp = np.load('../../data/clustering/chirp_response.npy')
 ```
 
-From an exercise notebook, data is at `../data/<dataset>/`.
+From an exercise notebook at `exercises/exN-<slug>/`, data is at `../../data/<dataset>/` (two levels up to the subdataset root, then into `data/`).

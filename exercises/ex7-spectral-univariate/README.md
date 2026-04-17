@@ -20,7 +20,7 @@ approaches (Welch, multitaper).
 16-channel hippocampal LFP recordings from the ds-wp7 dataset:
 
 ```
-../data/spectral/ws_data_1shank.mat
+../../data/spectral/ws_data_1shank.mat
 ```
 
 The `.mat` file contains variable `lfps`, a matrix of shape
@@ -28,7 +28,7 @@ The `.mat` file contains variable `lfps`, a matrix of shape
 
 ```python
 import scipy.io
-lfps = scipy.io.loadmat('../data/spectral/ws_data_1shank.mat')['lfps']  # (n_samples, 16)
+lfps = scipy.io.loadmat('../../data/spectral/ws_data_1shank.mat')['lfps']  # (n_samples, 16)
 ```
 
 ## Prerequisites

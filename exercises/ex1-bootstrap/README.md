@@ -20,7 +20,7 @@ statistic, even when you cannot derive an analytic null distribution.
 Single-unit spike recordings from V1 (primary visual cortex), loaded from:
 
 ```
-../data/crcns_pvc8/2.mat
+../../data/crcns_pvc8/2.mat
 ```
 
 Data are provided via the CRCNS PVC-8 dataset.  The `.mat` file contains spike

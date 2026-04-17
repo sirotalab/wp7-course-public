@@ -21,7 +21,7 @@ Run it section-by-section in your IDE or convert to a notebook with
 Population spiking data from the crcns_pvc8 dataset:
 
 ```
-../data/crcns_pvc8/
+../../data/crcns_pvc8/
 ```
 
 Same dataset as Ex1 (Bootstrap). See the starter script for loading instructions.
