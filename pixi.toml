@@ -5,7 +5,7 @@ channels = ["conda-forge"]
 platforms = ["linux-64", "osx-arm64", "osx-64", "win-64"]
 
 # Scientific Python stack for all WP7 exercises (Ex1–Ex10).
-# Matches the shared `wp7` conda env on the lab HPC.
+# Single source of truth — HPC and laptop both pull from here.
 [dependencies]
 python = ">=3.11,<3.13"
 numpy = ">=1.26"
@@ -25,10 +25,53 @@ ghostipy = ">=0.2"
 mne = ">=1.6"
 # Ex2 needs OpenCV for Gabor filter demo
 opencv = ">=4.9"
-# Datalad for syncing the course-materials dataset to your laptop (read-only).
+# Datalad for syncing course-materials (read-only) and your HPC work (bidirectional).
 datalad = ">=1.2,<2"
 
-[tasks]
-lab = "jupyter lab"
-kernel-install = "python -m ipykernel install --user --name wp7 --display-name 'Python (wp7)'"
-smoke-test = "python -c 'import numpy, scipy, matplotlib, sklearn, mne, ghostipy; print(\"all imports OK\")'"
+# -----------------------------------------------------------------------------
+# Student-facing tasks — run via `pixi run <name>`
+# -----------------------------------------------------------------------------
+#
+# Bootstrap (run once on laptop)
+# ------------------------------
+[tasks.setup-ssh]
+cmd = "python scripts/setup_ssh.py"
+description = "First-time SSH setup: keys, ~/.ssh/config, copy to HPC (laptop only)"
+
+[tasks.check-connection]
+cmd = "ssh -o ConnectTimeout=5 -o BatchMode=yes gamma3 echo ok"
+description = "Verify passwordless SSH to gamma3 works"
+
+# Daily use (laptop → HPC)
+# ------------------------
+[tasks.code]
+cmd = "python scripts/open_vscode.py"
+description = "Open VS Code Remote to your HPC workspace (laptop only)"
+
+# In-env work (anywhere pixi is)
+# ------------------------------
+[tasks.lab]
+cmd = "jupyter lab"
+description = "Start JupyterLab in the current directory"
+
+[tasks.submit]
+cmd = "python scripts/submit.py"
+description = "Validate + register an exercise submission. Usage: pixi run submit ex1"
+
+[tasks.smoke-test]
+cmd = "python -c 'import numpy, scipy, matplotlib, sklearn, mne, ghostipy; print(\"all imports OK\")'"
+description = "Verify the scientific stack is importable"
+
+[tasks.kernel-install]
+cmd = "python -m ipykernel install --user --name wp7 --display-name 'Python (wp7)'"
+description = "Register this pixi env as a Jupyter kernel named 'wp7'"
+
+# Sync helpers (optional — datalad CLI works fine on its own)
+# -----------------------------------------------------------
+[tasks.sync-down]
+cmd = "datalad update --merge && datalad get ."
+description = "Pull TA updates from the RIA store"
+
+[tasks.sync-up]
+cmd = "datalad save --auto && datalad push --to origin"
+description = "Push your local edits back to the HPC"
