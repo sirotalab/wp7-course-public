@@ -37,22 +37,44 @@ Full walkthrough (including off-campus VPN): [SSH setup](setup/ssh.md).
 
 Install the **Remote - SSH** extension, press `F1`, pick **Connect to Host → gamma3**. Done. Full walkthrough: [VS Code Remote-SSH](setup/vscode.md).
 
-## 4. Course materials and environment
+## 4. Open your workspace
+
+Your TA has already set up a workspace with all course materials at:
+
+```
+/storage2/wp7/<your-slug>/
+```
+
+A convenience symlink is in your home directory, so just:
 
 ```bash
-cd /storage2/wp7/course-materials
+cd ~/<your-slug>
 conda activate wp7
 ```
 
-The directory is read-only; the `wp7` env has everything for Ex1–5. Don't `pip install` into it — it's shared. Missing a package? Flag it in the chat.
+The workspace contains:
+
+```
+<your-slug>/
+├── course-materials/     # exercises, lectures, data, helper modules
+│   ├── exercises/        #   ex1-bootstrap/, ex2-encoding/, ..., ex9-bivariate-spectral/
+│   ├── data/             #   crcns_pvc8/, data_RGCs/, clustering/, spectral/
+│   ├── lectures/         #   mlynarski/, sirota/
+│   ├── notebooks/        #   reference notebooks
+│   └── lib/              #   wp7_helpers.py
+└── (your work goes here) #   ex1/, ex2/, ... — one dir per exercise
+```
 
 ## 5. Do Exercise 1
 
 ```bash
-cd /storage2/wp7/course-materials/exercises/ex1-bootstrap
+cd ~/<your-slug>/course-materials/exercises/ex1-bootstrap
 ```
 
-Open the starter notebook, read its `README.md`. All five exercises: [Exercises](exercises/index.md).
+Open `starter.ipynb`, read the header cell. All nine exercises: [Exercises](exercises/index.md).
+
+!!! tip "Working convention"
+    Work directly in the exercise directories. Your changes are yours — the TA can push updates without clobbering your work because `course-materials/` is a DataLad subdataset.
 
 ## 6. Submit
 
@@ -62,7 +84,7 @@ See [Submissions](submissions.md) — it's a filename convention, nothing fancy.
 
 ## Optional — sync to your laptop
 
-You can work entirely on the HPC (steps 1–6 are all you need). But if you want a local copy for offline reading or a backup of your own work, install [DataLad](https://www.datalad.org/) on your laptop and clone over SSH. There are two independent flows:
+You can work entirely on the HPC (steps 1–6 are all you need). But if you want a local copy for offline work or as a backup:
 
 ### Install datalad (once)
 
@@ -75,17 +97,7 @@ pixi global install datalad                      # installs datalad + git-annex
 
 Alternatives (conda, Homebrew, pipx) are listed on the [DataLad setup](setup/datalad.md#prerequisites) page.
 
-### Clone course materials (read-only)
-
-```bash
-datalad clone ria+ssh://beta:/storage/share/git/ria-store#~wp7-course-public wp7-course
-cd wp7-course
-datalad get .
-```
-
-Pull updates any time with `datalad update --merge && datalad get .`
-
-### Clone your HPC work (bidirectional)
+### Clone your HPC workspace
 
 ```bash
 datalad clone ssh://gamma3:/storage2/wp7/<your-slug>/ ~/wp7-work
@@ -93,9 +105,9 @@ cd ~/wp7-work
 datalad get .
 ```
 
-After working on HPC, pull with `datalad update --merge`. After working on your laptop, push with `datalad save -m "..." && datalad push --to origin`.
+This pulls everything — your work and the course materials. After working on HPC, pull with `datalad update --merge && datalad get .`. After working on your laptop, push with `datalad save -m "..." && datalad push --to origin`.
 
-Full walkthrough for both flows: **[DataLad setup](setup/datalad.md)**.
+Full walkthrough: **[DataLad setup](setup/datalad.md)**.
 
 ---
 

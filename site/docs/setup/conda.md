@@ -6,7 +6,7 @@
 conda activate wp7
 ```
 
-That's it — the shared environment is pre-installed on the HPC with everything you need for Ex1–5.
+That's it — the shared environment is pre-installed on the HPC with everything you need for all exercises.
 
 ## What's in it
 

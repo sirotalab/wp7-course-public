@@ -18,17 +18,16 @@ conditions.
 
 ## Data
 
-Population spiking data from the ds-wp7 dataset at:
+Population spiking data from the spectral dataset:
 
 ```
-/storage2/arash/sirocampus/data/ds-wp7/spikes.mat
-/storage2/arash/sirocampus/data/ds-wp7/spike_waveshapes.mat
+../data/spectral/spike_waveshapes.mat
 ```
 
-`spikes.mat` contains spike times and neuron identities; `spike_waveshapes.mat`
-contains spike waveforms for quality assessment.  Load with `scipy.io.loadmat`.
-You will need to bin spikes into a (neurons × time-bins) firing-rate matrix
-before applying dimensionality reduction.
+`spike_waveshapes.mat` contains spike waveforms for quality assessment.
+Load with `scipy.io.loadmat`.  You will need to bin spikes into a
+(neurons x time-bins) firing-rate matrix before applying dimensionality
+reduction.
 
 ## Prerequisites
 

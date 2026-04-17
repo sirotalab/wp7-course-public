@@ -7,7 +7,7 @@ Apply linear (PCA, ICA) and nonlinear (Isomap) dimensionality reduction to neura
 | | |
 |---|---|
 | **Directory** | `course-materials/exercises/ex6-dimred/` |
-| **Data** | `lfp.mat`, `spike_waveshapes.mat` (from `sourcedata/`) |
+| **Data** | `spike_waveshapes.mat` (from `../data/spectral/`) |
 | **Packages** | numpy, scipy, matplotlib, scikit-learn (`PCA`, `FastICA`, `Isomap`) |
 | **Helper module** | — (scikit-learn does the heavy lifting) |
 | **Prereqs** | `lectures/sirota/DimReduction_1_2023.pdf`, `DimReduction_BSS.pdf`, `DimReduction_Nonlinear.pdf` |

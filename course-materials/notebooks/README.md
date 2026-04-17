@@ -25,6 +25,6 @@ jupyter nbconvert --execute multitaper_spectral_analysis.ipynb --to notebook
 Both notebooks use the same hippocampal LFP dataset as Exercises 7–9:
 
 ```
-/storage2/arash/sirocampus/data/ds-wp7/ws_data_1shank.mat   (16-ch LFP, 1250 Hz)
-/storage2/arash/sirocampus/data/ds-wp7/spikes.mat            (spike times + cluster IDs)
+../data/spectral/ws_data_1shank.mat   (16-ch LFP, 1250 Hz)
+../data/spectral/spikes.mat            (spike times + cluster IDs)
 ```

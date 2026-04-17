@@ -21,7 +21,7 @@ theta bursts) in LFP data.
 16-channel hippocampal LFP recordings from the ds-wp7 dataset:
 
 ```
-/storage2/arash/sirocampus/data/ds-wp7/ws_data_1shank.mat
+../data/spectral/ws_data_1shank.mat
 ```
 
 Variable `lfps`, shape `(n_samples, 16)`, sampling rate **1250 Hz**.
@@ -29,7 +29,7 @@ Variable `lfps`, shape `(n_samples, 16)`, sampling rate **1250 Hz**.
 
 ```python
 import scipy.io
-lfps = scipy.io.loadmat('path/to/ws_data_1shank.mat')['lfps']
+lfps = scipy.io.loadmat('../data/spectral/ws_data_1shank.mat')['lfps']
 ```
 
 ## Prerequisites

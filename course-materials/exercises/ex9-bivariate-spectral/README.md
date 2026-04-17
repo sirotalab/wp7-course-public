@@ -21,7 +21,7 @@ for modern analyses of inter-areal communication in systems neuroscience.
 16-channel hippocampal LFP recordings from the ds-wp7 dataset:
 
 ```
-/storage2/arash/sirocampus/data/ds-wp7/ws_data_1shank.mat
+../data/spectral/ws_data_1shank.mat
 ```
 
 Variable `lfps`, shape `(n_samples, 16)`, sampling rate **1250 Hz**.
@@ -29,7 +29,7 @@ Variable `lfps`, shape `(n_samples, 16)`, sampling rate **1250 Hz**.
 
 ```python
 import scipy.io
-lfps = scipy.io.loadmat('path/to/ws_data_1shank.mat')['lfps']
+lfps = scipy.io.loadmat('../data/spectral/ws_data_1shank.mat')['lfps']
 ```
 
 ## Prerequisites
@@ -68,6 +68,5 @@ lfps = scipy.io.loadmat('path/to/ws_data_1shank.mat')['lfps']
 
 The SS25 Exercise 10 notebook uses a richer 96-channel dataset (`data96.mat`,
 42 MB) and a combined LFP+spikes file (`Lfp_and_Spikes.mat`, 116 MB).  Both are
-available in `sourcedata/moodle/ss25-public/.../Exercise_10/` and in
-`/storage2/arash/sirocampus/data/ds-wp7/data96.mat`.  Channel maps:
+available in `../data/spectral/data96.mat`.  Channel maps:
 `ChannelMap96.png`, `PlotMap96.py` (same folder).

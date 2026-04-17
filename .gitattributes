@@ -1,3 +1,37 @@
 * annex.backend=MD5E
 **/.git* annex.largefiles=nothing
-* annex.largefiles=((mimeencoding=binary)and(largerthan=0))
+
+# Text files — always in git (readable diffs, no annex overhead)
+*.md annex.largefiles=nothing
+*.yml annex.largefiles=nothing
+*.yaml annex.largefiles=nothing
+*.txt annex.largefiles=nothing
+*.csv annex.largefiles=nothing
+*.py annex.largefiles=nothing
+*.ipynb annex.largefiles=nothing
+*.toml annex.largefiles=nothing
+*.lock annex.largefiles=nothing
+*.html annex.largefiles=nothing
+*.css annex.largefiles=nothing
+*.js annex.largefiles=nothing
+*.json annex.largefiles=nothing
+*.cfg annex.largefiles=nothing
+*.ini annex.largefiles=nothing
+*.sh annex.largefiles=nothing
+
+# Binary / large files — annex
+*.mat annex.largefiles=anything
+*.npy annex.largefiles=anything
+*.npz annex.largefiles=anything
+*.pdf annex.largefiles=anything
+*.png annex.largefiles=anything
+*.jpg annex.largefiles=anything
+*.tiff annex.largefiles=anything
+*.zip annex.largefiles=anything
+*.gz annex.largefiles=anything
+*.tar annex.largefiles=anything
+*.h5 annex.largefiles=anything
+*.hdf5 annex.largefiles=anything
+
+# Fallback: binary files above 100KB go to annex
+* annex.largefiles=((mimeencoding=binary)and(largerthan=100kb))

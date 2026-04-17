@@ -17,7 +17,7 @@ accuracy depends on population size and temporal resolution.
 Population spiking data from the crcns_pvc8 dataset:
 
 ```
-sourcedata/data/crcns_pvc8/
+../data/crcns_pvc8/
 ```
 
 Same dataset as Ex1 (Bootstrap) and Ex3 (Populations).

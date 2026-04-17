@@ -17,9 +17,9 @@ predicts spike rates from the stimulus, estimate the spike-triggered average
 Retinal ganglion cell recordings in `data_RGCs/`:
 
 ```
-sourcedata/data/crcns_pvc8/data_RGCs/SpTimes.mat    # spike times
-sourcedata/data/crcns_pvc8/data_RGCs/Stim.mat        # stimulus frames
-sourcedata/data/crcns_pvc8/data_RGCs/stimtimes.mat   # stimulus timing
+../data/data_RGCs/SpTimes.mat    # spike times
+../data/data_RGCs/Stim.mat        # stimulus frames
+../data/data_RGCs/stimtimes.mat   # stimulus timing
 ```
 
 Load with `scipy.io.loadmat`.

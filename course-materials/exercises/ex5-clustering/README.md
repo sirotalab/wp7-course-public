@@ -17,9 +17,9 @@ discovered clusters to known cell-type labels.
 Chirp-response data:
 
 ```
-sourcedata/data/crcns_pvc8/chirp_response.npy           # (n_cells, n_timepoints) — 75 MB
-sourcedata/data/crcns_pvc8/chirp_response_quality.npy    # quality metrics
-sourcedata/data/crcns_pvc8/group_index.npy               # ground-truth group labels
+../data/clustering/chirp_response.npy           # (n_cells, n_timepoints) — 75 MB
+../data/clustering/chirp_response_quality.npy    # quality metrics
+../data/clustering/group_index.npy               # ground-truth group labels
 ```
 
 Load with `numpy.load`.

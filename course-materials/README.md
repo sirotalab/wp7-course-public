@@ -28,7 +28,3 @@ course-materials/
 ├── notebooks/                # reference / exploratory notebooks
 └── lib/                      # shared helper modules (wp7_helpers)
 ```
-
-## 2026 cohort ephys-login assignment
-
-TBD — posted here before the first session.

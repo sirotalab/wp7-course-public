@@ -50,12 +50,12 @@ Source: `course-materials/lib/wp7_helpers.py` — feel free to read it.
 
 ## Data files
 
-Exercise data lives in `sourcedata/data/` (on HPC: `/storage2/arash/sirocampus/data/`). Each exercise README tells you exactly which files to load and how. Key datasets:
+Exercise data lives in `course-materials/data/` (relative path from each exercise: `../data/`). Each exercise README tells you exactly which files to load and how. Key datasets:
 
-- **crcns_pvc8** — population spiking data, used in Ex1, Ex3, Ex4, Ex5
-- **data_RGCs** — retinal ganglion cell recordings, used in Ex2
-- **chirp_response** — chirp-evoked responses, used in Ex5
-- **ws_data_1shank.mat** — 16-ch hippocampal LFP (1250 Hz), used in Ex7, Ex8, Ex9
+- **crcns_pvc8** (`../data/crcns_pvc8/`) — population spiking data, used in Ex1, Ex3, Ex4
+- **data_RGCs** (`../data/data_RGCs/`) — retinal ganglion cell recordings, used in Ex2
+- **clustering** (`../data/clustering/`) — chirp-evoked responses, used in Ex5
+- **spectral** (`../data/spectral/`) — 16-ch hippocampal LFP, spike waveforms, used in Ex6, Ex7, Ex8, Ex9
 
 ## Getting started
 
