@@ -30,7 +30,7 @@ class WP7Config:
 
     @property
     def hpc_path(self) -> str:
-        return f"/storage2/wp7/{self.slug}"
+        return f"/storage2/arash/teaching/wp7/{self.slug}"
 
 
 def load(required: bool = True) -> WP7Config | None:

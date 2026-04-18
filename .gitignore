@@ -17,7 +17,7 @@ __pycache__/
 .ipynb_checkpoints/
 
 # pixi local env cache, in case anyone ever runs `pixi install` from
-# inside the subdataset (canonical install lives at /storage2/wp7/env/).
+# inside the subdataset (canonical install lives at /storage2/arash/teaching/wp7/env/).
 .pixi/
 
 # mkdocs Pages build output.  GitLab CI builds into ./public/ here on

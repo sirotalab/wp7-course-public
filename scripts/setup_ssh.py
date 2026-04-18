@@ -52,7 +52,7 @@ def b(s): return _c("1;34", s)
 # ---------------------------------------------------------------------------
 
 def refuse_on_hpc() -> None:
-    if Path("/storage2/wp7").is_dir():
+    if Path("/storage2/arash/teaching/wp7").is_dir():
         print(r("error: you're already on the HPC."))
         print("setup-ssh is a laptop-side command. Your HPC account is already set up.")
         sys.exit(1)
