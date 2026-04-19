@@ -31,6 +31,7 @@ import hashlib
 import json
 import os
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -138,11 +139,24 @@ def check_runs(nb_path: Path) -> tuple[bool, str, str | None]:
     if nb_path.suffix != ".ipynb":
         return True, "skipped (script)", None
     print(b("  executing notebook end-to-end (up to 5 min)..."))
+    # Workaround for `pixi run` (0.67) stripping LD_LIBRARY_PATH from the
+    # child env and not firing activation scripts. Jupyter's kernel
+    # subprocess then resolves libstdc++ to the system copy, which on
+    # older Debian/Ubuntu hosts lacks CXXABI_1.3.15 (needed by conda-forge
+    # libicui18n). We re-establish LD_LIBRARY_PATH via a bash -c wrapper
+    # because setting it on the Python subprocess env= alone isn't enough —
+    # jupyter_client spawns the kernel and mangles the env.
+    conda_prefix = os.environ.get("CONDA_PREFIX", "")
+    nb_shell = shlex.quote(str(nb_path))
+    bash_cmd = (
+        f'export LD_LIBRARY_PATH="{conda_prefix}/lib${{LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}}" && '
+        f'exec jupyter nbconvert --to notebook --execute '
+        f'--ExecutePreprocessor.timeout=300 '
+        f'--output /tmp/wp7-submit-check.ipynb {nb_shell}'
+    )
     try:
         subprocess.run(
-            ["jupyter", "nbconvert", "--to", "notebook", "--execute",
-             "--ExecutePreprocessor.timeout=300",
-             "--output", "/tmp/wp7-submit-check.ipynb", str(nb_path)],
+            ["bash", "-c", bash_cmd],
             check=True, capture_output=True, text=True,
             timeout=360,
         )

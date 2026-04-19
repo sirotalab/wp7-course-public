@@ -32,6 +32,16 @@ datalad = ">=1.2,<2"
 [pypi-dependencies]
 ghostipy = ">=0.2"
 
+# Put the env's lib dir first on LD_LIBRARY_PATH so conda-forge's newer
+# libstdc++ (needed by libicu ≥78) wins over older system /usr/lib. Without
+# this, `jupyter nbconvert --execute` crashes with "CXXABI_1.3.15 not found"
+# on hosts with a gcc-12-era system libstdc++ (e.g. gamma3, 2026-04).
+# Done via an activation script so $CONDA_PREFIX is already set when
+# the assignment evaluates (direct [activation.env] doesn't expand shell
+# variables at toml-parse time).
+[activation]
+scripts = ["scripts/pixi_activate.sh"]
+
 # -----------------------------------------------------------------------------
 # Student-facing tasks — run via `pixi run <name>`
 # -----------------------------------------------------------------------------

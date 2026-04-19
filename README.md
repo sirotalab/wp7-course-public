@@ -1,16 +1,27 @@
-# WP7 course materials (2026)
+# WP7 — Neural Data Analysis (course materials)
 
-Student-facing files for the WP7 Neural Data Analysis course
-(MSc Neuroscience, LMU).
+Student-facing materials for **WP7 — Machine Learning & Analysis of Neural Data** (MSc Neuroscience, LMU, SS 2026).
 
-This dataset is installed into each student's HPC workspace as a
-DataLad subdataset. Students see it at `~/<slug>/course-materials/`.
+This repo is the distributable dataset — notebooks, data, lectures, and the Python environment spec. The **full documentation lives on the course site**, not here:
 
-## Layout
+- 🌐 **Course site (start here):** <https://sirotalab.github.io/wp7-course/>
+- 📘 Quick start: <https://sirotalab.github.io/wp7-course/quickstart/>
+- 📗 HPC workflow: <https://sirotalab.github.io/wp7-course/workflow/>
+- 📄 Exercises: <https://sirotalab.github.io/wp7-course/exercises/>
+- 📮 How to submit: <https://sirotalab.github.io/wp7-course/submissions/>
+
+GitLab Pages mirror (identical content): <https://sirotalab.pages.gitlab.lrz.de/wp7-course/>
+
+---
+
+## What's in here
+
+Students get this tree at `~/<slug>/course-materials/` on the HPC (installed by the TA via DataLad) or by cloning to their laptop.
 
 ```
 course-materials/
-├── environment.yml           # snapshot of the lab `wp7` conda env
+├── pixi.toml                 # reproducible env (pixi install gets everything)
+├── pixi.lock                 # committed lockfile → fresh clones skip the solve
 ├── data/                     # exercise datasets (annexed)
 │   ├── crcns_pvc8/           #   V1 spiking — Ex1, Ex3, Ex4
 │   ├── data_RGCs/            #   RGC recordings — Ex2
@@ -30,6 +41,25 @@ course-materials/
 │   ├── ex8-spectral-timeresolved/  # Time series analysis 2
 │   ├── ex9-bivariate-spectral/     # Time series analysis 3
 │   └── ex10-clustering/      # Latent variable models
+├── scripts/                  # `pixi run` task wrappers (submit, setup-ssh, …)
 ├── notebooks/                # reference / exploratory notebooks
-└── lib/                      # shared helper modules (wp7_helpers)
+└── lib/                      # shared helper module (wp7_helpers)
 ```
+
+## Common student commands
+
+Run from inside `course-materials/`:
+
+| Command | What it does |
+|---|---|
+| `pixi install` | Install the scientific stack (numpy/scipy/mne/…) into `.pixi/envs/default/` |
+| `pixi run lab` | Launch JupyterLab |
+| `pixi run submit exN` | Validate + register your submission for exercise N (executes your notebook end-to-end, emails you a confirmation) |
+| `pixi run kernel-install` | Register the env as a Jupyter kernel named `wp7` |
+| `datalad update --merge && datalad get .` | Pull TA updates and fetch any new/changed files |
+
+See the course site for the full one-time setup (install pixi, clone, SSH, VS Code Remote) and the per-exercise walkthroughs.
+
+## Licensing
+
+Course notebooks and scripts: MIT (see `LICENSE` when present). Data files retain their upstream licenses — see each dataset's README (e.g. `data/crcns_pvc8/README.md` for CRCNS terms).
