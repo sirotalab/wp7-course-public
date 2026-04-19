@@ -2,11 +2,11 @@
 #
 # This file is intentionally minimal: the public/ subdataset only holds the
 # mkdocs site (site/) and student-distributable course materials
-# (course-materials/). No build outputs, no test scratch, no real Python
+# (wp7-course-materials/). No build outputs, no test scratch, no real Python
 # project.  The TA tools and student env live one level up in the outer
 # wp7-course tree, where their own .gitignore handles them.
 
-# Python bytecode caches (e.g. course-materials/lib/__pycache__/ from
+# Python bytecode caches (e.g. wp7-course-materials/lib/__pycache__/ from
 # importing wp7_helpers.py during a smoke test or dev session).
 __pycache__/
 *.py[cod]

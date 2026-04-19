@@ -2,7 +2,7 @@
 
 Shared by all `pixi run` wrapper scripts in this directory. Keeps the
 student's identity (slug, ephys account, email) out of the shared
-course-materials tree so the same clone works for anyone.
+wp7-course-materials tree so the same clone works for anyone.
 """
 from __future__ import annotations
 

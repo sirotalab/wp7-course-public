@@ -14,10 +14,10 @@ The **full documentation lives on the course site** — start there:
 
 ## What's in here
 
-Students get this tree at `~/<slug>/course-materials/` on the HPC (installed by the TA via DataLad) or by cloning to their laptop.
+Students get this tree at `~/<slug>/wp7-course-materials/` on the HPC (installed by the TA via DataLad) or by cloning to their laptop.
 
 ```
-course-materials/
+wp7-course-materials/
 ├── pixi.toml                 # reproducible env (pixi install gets everything)
 ├── pixi.lock                 # committed lockfile → fresh clones skip the solve
 ├── data/                     # exercise datasets (annexed)
@@ -46,7 +46,7 @@ course-materials/
 
 ## Common student commands
 
-Run from inside `course-materials/`:
+Run from inside `wp7-course-materials/`:
 
 | Command | What it does |
 |---|---|

@@ -52,12 +52,12 @@ def b(s): return _c("1;34", s)
 
 
 def repo_root() -> Path:
-    """Find the course-materials root (where pixi.toml + exercises/ live)."""
+    """Find the wp7-course-materials root (where pixi.toml + exercises/ live)."""
     here = Path(__file__).resolve().parent
     for d in [here, *here.parents]:
         if (d / "exercises").is_dir() and (d / "pixi.toml").is_file():
             return d
-    print(r("error: can't find course-materials root (no pixi.toml + exercises/ anywhere above this script)"))
+    print(r("error: can't find wp7-course-materials root (no pixi.toml + exercises/ anywhere above this script)"))
     sys.exit(2)
 
 

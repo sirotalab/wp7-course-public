@@ -25,7 +25,7 @@ ipykernel = ">=6.25"
 mne = ">=1.6"
 # Ex2 needs OpenCV for Gabor filter demo
 opencv = ">=4.9"
-# Datalad for syncing course-materials (read-only) and your HPC work (bidirectional).
+# Datalad for syncing wp7-course-materials (read-only) and your HPC work (bidirectional).
 datalad = ">=1.2,<2"
 
 # PyPI-only packages (installed via pip into the pixi env).
