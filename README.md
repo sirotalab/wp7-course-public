@@ -1,16 +1,14 @@
 # WP7 — Neural Data Analysis (course materials)
 
-Student-facing materials for **WP7 — Machine Learning & Analysis of Neural Data** (MSc Neuroscience, LMU, SS 2026).
+Course materials for **Machine Learning & Analysis of Neural Data** — MSc Neuroscience, LMU, SS 2026. Notebooks, datasets, lecture PDFs, and the Python environment spec.
 
-This repo is the distributable dataset — notebooks, data, lectures, and the Python environment spec. The **full documentation lives on the course site**, not here:
+The **full documentation lives on the course site** — start there:
 
-- 🌐 **Course site (start here):** <https://sirotalab.github.io/wp7-course/>
-- 📘 Quick start: <https://sirotalab.github.io/wp7-course/quickstart/>
-- 📗 HPC workflow: <https://sirotalab.github.io/wp7-course/workflow/>
-- 📄 Exercises: <https://sirotalab.github.io/wp7-course/exercises/>
-- 📮 How to submit: <https://sirotalab.github.io/wp7-course/submissions/>
-
-GitLab Pages mirror (identical content): <https://sirotalab.pages.gitlab.lrz.de/wp7-course/>
+- 🌐 **Course site (start here):** <https://sirotalab.pages.gitlab.lrz.de/wp7-course/>
+- 📘 Quick start: <https://sirotalab.pages.gitlab.lrz.de/wp7-course/quickstart/>
+- 📗 HPC workflow: <https://sirotalab.pages.gitlab.lrz.de/wp7-course/workflow/>
+- 📄 Exercises: <https://sirotalab.pages.gitlab.lrz.de/wp7-course/exercises/>
+- 📮 How to submit: <https://sirotalab.pages.gitlab.lrz.de/wp7-course/submissions/>
 
 ---
 
