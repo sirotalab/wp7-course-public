@@ -13,7 +13,7 @@ theta bursts) in LFP data.
 ## Files in this directory
 
 - `ex8.pdf` — the exercise prompt (authored by Anton Sirota)
-- `starter.ipynb` — scaffolded notebook (TBD — pending Anton's 2025/2026 updates; see `planning/`)
+- `starter.ipynb` — scaffolded notebook (TBD — pending Anton's 2025/2026 updates; see `docs/planning/`)
 - `README.md` — this file
 
 ## Data

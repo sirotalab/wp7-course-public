@@ -12,7 +12,7 @@ approaches (Welch, multitaper).
 ## Files in this directory
 
 - `ex7.pdf` — the exercise prompt (authored by Anton Sirota)
-- `starter.ipynb` — scaffolded notebook (TBD — pending Anton's 2025/2026 updates; see `planning/`)
+- `starter.ipynb` — scaffolded notebook (TBD — pending Anton's 2025/2026 updates; see `docs/planning/`)
 - `README.md` — this file
 
 ## Data
