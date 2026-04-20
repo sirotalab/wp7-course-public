@@ -2,22 +2,24 @@
 
 ## Topic
 
-Resampling-based hypothesis testing without parametric assumptions. You will apply
-the bootstrap to V1 spike-train data and test whether observed temporal structure
-in inter-spike intervals (ISIs) is statistically surprising. The bootstrap is one
-of the most broadly applicable tools in quantitative neuroscience — it attaches
-uncertainty bounds to almost any statistic, even when no analytic null exists.
+Resampling-based hypothesis testing without parametric assumptions. You will
+apply the bootstrap to V1 spike-train data and test hypotheses about temporal
+structure, correlations, or rate modulations that you propose yourself. The
+bootstrap is one of the most broadly applicable tools in quantitative
+neuroscience — it attaches uncertainty bounds to almost any statistic, even
+when no analytic null exists.
 
 ## Style
 
-**Open-ended** — the starter gives you a question, a dataset, and a sketch of
-the sections. Your task is to explore and decide: which test statistic? which
-shuffling scheme? which neuron? Each section has a "peek if stuck" collapsible
-with a skeleton; use it only after you've tried on your own. No autograder.
+**Open-ended** — the starter gives you a dataset and a procedural recipe
+(state hypothesis → pick test statistic → build null by shuffling → compare).
+You decide which hypothesis to test, which statistic to compute, and which
+shuffling scheme destroys the structure you're probing. Extra credit for
+creative hypotheses. No autograder.
 
 ## Files in this directory
 
-- `starter.ipynb` — Neuromatch-style scaffold (open the header first — it has prereqs and reading links)
+- `starter.ipynb` — Wiktor's open-ended prompt (Mlynarski, 2026)
 - `README.md` — this file
 
 ## Data
@@ -25,7 +27,7 @@ with a skeleton; use it only after you've tried on your own. No autograder.
 Single-unit recordings from V1 (primary visual cortex), [CRCNS PVC-8](https://crcns.org/data-sets/vc/pvc-8):
 
 ```
-../../data/crcns_pvc8/2.mat
+../../data/crcns_pvc8/1.mat
 ```
 
 The `.mat` file contains `resp_train`, a 4-D binary array of shape
@@ -33,7 +35,7 @@ The `.mat` file contains `resp_train`, a 4-D binary array of shape
 
 ## Prerequisites
 
-- **Lectures**: Wiktor — Introduction & nonparametric testing (Lec 01a, 01b)
+- **Lectures**: Wiktor — Introduction & nonparametric testing (Lec 01)
 - **Previous exercises**: none (Ex1 is the entry point)
 - **Packages**: `numpy`, `scipy`, `matplotlib`
 
