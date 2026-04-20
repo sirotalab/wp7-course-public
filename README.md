@@ -51,10 +51,15 @@ Run from inside `wp7-course-materials/`:
 | Command | What it does |
 |---|---|
 | `pixi install` | Install the scientific stack (numpy/scipy/mne/…) into `.pixi/envs/default/` |
-| `pixi run lab` | Launch JupyterLab |
+| `pixi run kernel-install` | Register the env as a Jupyter kernel named `wp7` — **recommended** for VS Code (Copilot, debugger, git) |
+| `pixi run lab` | Launch JupyterLab inside the env (alternative to the kernel flow) |
 | `pixi run submit exN` | Validate + register your submission for exercise N (executes your notebook end-to-end, emails you a confirmation) |
-| `pixi run kernel-install` | Register the env as a Jupyter kernel named `wp7` |
 | `datalad update --merge && datalad get .` | Pull TA updates and fetch any new/changed files |
+
+After `pixi run kernel-install`, open any `.ipynb` in VS Code and pick
+**"Python (wp7)"** from the kernel picker. Full write-up:
+[Environment — Jupyter: two ways](https://sirotalab.pages.gitlab.lrz.de/wp7-course/setup/environment/#jupyter-two-ways)
+· [VS Code Remote-SSH](https://sirotalab.pages.gitlab.lrz.de/wp7-course/setup/vscode/).
 
 See the course site for the full one-time setup (install pixi, clone, SSH, VS Code Remote) and the per-exercise walkthroughs.
 
