@@ -1,43 +1,21 @@
 # Exercise 2 — Encoding in Individual Neurons
 
-## Topic
+**Releases on 2026-04-30.**
 
-Single-neuron encoding models: how individual retinal ganglion cells (RGCs)
-represent visual stimuli.  You will build a linear–nonlinear (LN) model that
-predicts spike rates from the stimulus, estimate the spike-triggered average
-(STA), and assess model quality using cross-validated predictions.
+This directory is a placeholder until the exercise is released. On release day,
+`starter.ipynb` will appear here and this README will be replaced with the full
+exercise brief.
 
-## Files in this directory
+## Topic (preview)
 
-- `starter.ipynb` — scaffolded notebook (from Mlynarski SS25 Exercise_02)
-- `README.md` — this file
+Single-neuron encoding models for retinal ganglion cells: linear–nonlinear (LN)
+models, spike-triggered averages (STA), and cross-validated prediction quality.
 
-## Data
+## On release day
 
-Retinal ganglion cell recordings in `data_RGCs/`:
-
+```bash
+pixi run sync                  # pull the new exercise + data
+pixi run start ex2             # create your working copy (ex2.ipynb)
+# ... edit ex2.ipynb ...
+pixi run submit ex2            # validate + push when done
 ```
-../../data/data_RGCs/SpTimes.mat    # spike times
-../../data/data_RGCs/Stim.mat        # stimulus frames
-../../data/data_RGCs/stimtimes.mat   # stimulus timing
-```
-
-Load with `scipy.io.loadmat`.
-
-## Prerequisites
-
-- **Lectures**: Mlynarski — Encoding in individual neurons
-- **Previous exercises**: Ex1 (bootstrap) — statistical testing background
-- **Packages**: `numpy`, `scipy`, `matplotlib`
-
-## Tips
-
-- The spike-triggered average (STA) is a simple but powerful first model of
-  neuronal selectivity — it tells you what the neuron "likes" to see.
-- Cross-validate your LN model: fit on one half of the data, predict on the other.
-- Compare Poisson GLM predictions with simple STA-based estimates.
-
-## Also see
-
-- Site page: [exercises/ex2](../../site/docs/exercises/ex2.md)
-- [Submissions](../../../site/docs/submissions.md) — filename convention

@@ -68,6 +68,10 @@ description = "Open VS Code Remote to your HPC workspace (laptop only)"
 cmd = "jupyter lab"
 description = "Start JupyterLab in the current directory"
 
+[tasks.start]
+cmd = "python scripts/start_exercise.py"
+description = "Create your working copy for an exercise. Usage: pixi run start ex2"
+
 [tasks.submit]
 cmd = "python scripts/submit.py"
 description = "Validate + register an exercise submission. Usage: pixi run submit ex1"
@@ -80,12 +84,8 @@ description = "Verify the scientific stack is importable"
 cmd = "python -m ipykernel install --user --name wp7 --display-name 'Python (wp7)'"
 description = "Register this pixi env as a Jupyter kernel named 'wp7'"
 
-# Sync helpers (optional — datalad CLI works fine on its own)
-# -----------------------------------------------------------
-[tasks.sync-down]
-cmd = "datalad update --merge && datalad get ."
-description = "Pull TA updates from the RIA store"
-
-[tasks.sync-up]
-cmd = "datalad save --auto && datalad push --to origin"
-description = "Push your local edits back to the HPC"
+# Sync — the daily-loop pull task
+# -------------------------------
+[tasks.sync]
+cmd = "datalad update --merge origin && datalad get ."
+description = "Pull TA updates (new exercises, bugfixes, released solutions) + fetch any new annexed data"

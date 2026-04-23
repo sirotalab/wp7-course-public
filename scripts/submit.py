@@ -10,13 +10,13 @@ Usage::
 What it does:
 
 1. Resolves the exercise (directory under ``exercises/``).
-2. Looks for ``exN_<your-slug>.ipynb`` — or ``.py`` for Ex3 — in that directory.
+2. Looks for ``exN.ipynb`` — or ``ex3.py`` for Ex3 — in that directory.
 3. Validates the notebook:
    * No ``raise NotImplementedError`` left.
    * At least one code cell has output (was it executed?).
    * Executes the notebook end-to-end (default; pass ``--skip-run`` for the
      fast static-only check).
-4. Records the submission in a sidecar file ``exN_<slug>.submission.json``
+4. Records the submission in a sidecar file ``exN.submission.json``
    next to the notebook. The TA's grading script picks these up.
 5. Emails a confirmation to the address in ``~/.wp7/config.toml``. Opt out
    with ``--no-email`` or ``WP7_NO_EMAIL=1``.
@@ -77,8 +77,8 @@ def resolve_exercise(arg: str, root: Path) -> Path:
     sys.exit(2)
 
 
-def find_notebook(ex_dir: Path, slug: str) -> Path:
-    """Find exN_<slug>.ipynb (or .py) in the exercise dir."""
+def find_notebook(ex_dir: Path) -> Path:
+    """Find exN.ipynb (or ex3.py) in the exercise dir."""
     ex_num = re.match(r"ex(\d+)", ex_dir.name)
     if not ex_num:
         print(r(f"error: can't parse exercise number from {ex_dir.name}"))
@@ -86,16 +86,15 @@ def find_notebook(ex_dir: Path, slug: str) -> Path:
     n = ex_num.group(1)
 
     for ext in (".ipynb", ".py"):
-        candidate = ex_dir / f"ex{n}_{slug}{ext}"
+        candidate = ex_dir / f"ex{n}{ext}"
         if candidate.exists():
             return candidate
 
-    print(r(f"error: no submission found for slug {slug!r} in {ex_dir.name}"))
-    print(f"expected: {ex_dir}/ex{n}_{slug}.ipynb  (or .py for ex3)")
+    print(r(f"error: no submission found in {ex_dir.name}"))
+    print(f"expected: {ex_dir}/ex{n}.ipynb  (or ex{n}.py for ex3)")
     print()
     print("to create it:")
-    print(f"  open {ex_dir}/starter.ipynb in VS Code")
-    print(f"  File → Save As → ex{n}_{slug}.ipynb")
+    print(f"  pixi run start ex{n}")
     sys.exit(2)
 
 
@@ -257,7 +256,7 @@ def record_submission(
     failure_category: str | None,
     submitted_at: str,
 ) -> Path:
-    """Write ``exN_<slug>.submission.json`` next to the notebook."""
+    """Write ``exN.submission.json`` next to the notebook."""
     record_path = nb_path.with_suffix(".submission.json")
     record = {
         "slug": cfg.slug,
@@ -294,7 +293,7 @@ def main(argv: list[str] | None = None) -> int:
     cfg = load()
     root = repo_root()
     ex_dir = resolve_exercise(args.exercise, root)
-    nb_path = find_notebook(ex_dir, cfg.slug)
+    nb_path = find_notebook(ex_dir)
 
     print(b(f"submitting {nb_path.name} as {cfg.slug}"))
     print()

@@ -1,45 +1,22 @@
 # Exercise 4 — Decoding Neural Activity
 
-## Topic
+**Releases on 2026-05-11.**
 
-Neural decoding: reconstructing stimulus identity or behavioural variables from
-population spiking activity.  You will implement Bayesian and linear decoders,
-evaluate their performance with cross-validation, and explore how decoding
-accuracy depends on population size and temporal resolution.
+This directory is a placeholder until the exercise is released. On release day,
+`starter.ipynb` will appear here and this README will be replaced with the full
+exercise brief.
 
-## Files in this directory
+## Topic (preview)
 
-- `starter.ipynb` — scaffolded notebook (from Mlynarski SS25 Exercise_04)
-- `README.md` — this file
+Neural decoding: reconstructing stimulus identity from population spiking
+activity using Bayesian and linear decoders, with cross-validation and
+population-size scaling.
 
-## Data
+## On release day
 
-Population spiking data from the crcns_pvc8 dataset:
-
+```bash
+pixi run sync                  # pull the new exercise + data
+pixi run start ex4             # create your working copy (ex4.ipynb)
+# ... edit ex4.ipynb ...
+pixi run submit ex4            # validate + push when done
 ```
-../../data/crcns_pvc8/
-```
-
-Same dataset as Ex1 (Bootstrap) and Ex3 (Populations).
-
-## Prerequisites
-
-- **Lectures**: Mlynarski — Decoding neural activity
-- **Previous exercises**: Ex1 (bootstrap), Ex2 (encoding), Ex3 (populations)
-- **Packages**: `numpy`, `scipy`, `matplotlib`, `scikit-learn`
-
-## Tips
-
-- Start with a simple maximum-likelihood decoder before moving to more complex
-  approaches.
-- Cross-validation is essential — always report test-set accuracy, not
-  training-set accuracy.
-- Confusion matrices reveal which stimuli are easily decoded and which are
-  confused with each other.
-- Try varying the number of neurons in your decoder to see how population size
-  affects performance.
-
-## Also see
-
-- Site page: [exercises/ex4](../../site/docs/exercises/ex4.md)
-- [Submissions](../../../site/docs/submissions.md) — filename convention
