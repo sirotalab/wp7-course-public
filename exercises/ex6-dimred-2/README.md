@@ -1,41 +1,22 @@
 # Exercise 6 — Dimensionality Reduction 2 (LFP BSS + Nonlinear)
 
-## Topic
+**Releases on 2026-05-28.**
 
-Blind source separation via FastICA on multichannel local field potentials
-(LFP), theta-triggered analysis, frequency-band effects, denoising, and
-nonlinear dimensionality reduction (Isomap, t-SNE).
+This directory is a placeholder until the exercise is released. On release day,
+`starter.ipynb` will appear here and this README will be replaced with the full
+exercise brief.
 
-## Files in this directory
+## Topic (preview)
 
-- `starter.ipynb` — scaffolded Neuromatch-style notebook
-- `README.md` — this file
+Blind source separation via FastICA on multichannel LFP, theta-triggered
+analysis, frequency-band effects and denoising; nonlinear dimensionality
+reduction (Isomap, t-SNE) on the spike-waveform space from Ex5.
 
-## Data
+## On release day
 
-Multichannel LFP from a linear probe (for BSS tasks) and spike waveshapes
-(for the nonlinear bonus):
-
+```bash
+pixi run sync                  # pull the new exercise + data
+pixi run start ex6             # create your working copy (ex6.ipynb)
+# ... edit ex6.ipynb ...
+pixi run submit ex6            # validate + push when done
 ```
-../../data/spectral/lfp.mat
-../../data/spectral/spike_waveshapes.mat
-```
-
-## Prerequisites
-
-- **Lectures**: Anton — Dimensionality Reduction 2 (Lec 06: BSS + Nonlinear)
-- **Previous exercises**: **Ex5 required** (establishes PCA baseline); Ex1–4 for data handling
-- **Packages**: `numpy`, `scipy`, `matplotlib`, `scikit-learn` (`FastICA`, `Isomap`, `TSNE`)
-
-## Tips
-
-- **Spatial profiles** — each column of the ICA mixing matrix `A` is one IC's projection across channels. Laminar sources look smooth and localised; EMG artifacts look broad or flat.
-- **IC non-uniqueness** — unlike PCA, ICA components aren't ordered by variance; re-runs may permute/flip them.
-- **Theta-triggered averaging** — band-pass at 5–12 Hz, find local minima, extract windows, average across epochs. A coherent IC will show a clear phase-locked structure.
-- **Nonlinear methods** — Isomap needs a connected k-NN graph; t-SNE is sensitive to perplexity. Subsample for speed (~5k points).
-
-## Also see
-
-- Site page: [exercises/ex6](../../../site/exercises/ex6.md)
-- [Submissions](../../../site/submissions.md)
-- Builds on Ex5 (DimRed 1)

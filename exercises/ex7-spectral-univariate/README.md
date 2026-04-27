@@ -1,63 +1,22 @@
 # Exercise 7 — Univariate Spectral Analysis
 
-## Topic
+**Releases on 2026-06-01.**
 
-Power spectral density (PSD) estimation from local field potential (LFP)
-recordings.  LFP oscillations (theta ~8 Hz, gamma ~60–90 Hz, etc.) are
-cardinal signatures of hippocampal network states.  You will learn how to
-estimate the PSD using multitaper methods, understand the trade-off between
-frequency resolution and spectral leakage, and compare different estimation
-approaches (Welch, multitaper).
+This directory is a placeholder until the exercise is released. On release day,
+`starter.ipynb` will appear here and this README will be replaced with the full
+exercise brief.
 
-## Files in this directory
+## Topic (preview)
 
-- `ex7.pdf` — the exercise prompt (authored by Anton Sirota)
-- `starter.ipynb` — scaffolded notebook (TBD — pending Anton's 2025/2026 updates; see `docs/planning/`)
-- `README.md` — this file
+Power spectral density (PSD) estimation from hippocampal LFP — Welch vs
+multitaper methods and the frequency-resolution / spectral-leakage trade-off,
+with theta (~8 Hz) and gamma (~60–90 Hz) as the empirical anchors.
 
-## Data
+## On release day
 
-16-channel hippocampal LFP recordings from the ds-wp7 dataset:
-
+```bash
+pixi run sync                  # pull the new exercise + data
+pixi run start ex7             # create your working copy (ex7.ipynb)
+# ... edit ex7.ipynb ...
+pixi run submit ex7            # validate + push when done
 ```
-../../data/spectral/ws_data_1shank.mat
-```
-
-The `.mat` file contains variable `lfps`, a matrix of shape
-`(n_samples, 16)` recorded at **1250 Hz**.  Load with:
-
-```python
-import scipy.io
-lfps = scipy.io.loadmat('../../data/spectral/ws_data_1shank.mat')['lfps']  # (n_samples, 16)
-```
-
-## Prerequisites
-
-- **Lectures** (from `lectures/sirota/`):
-  - `SpectralAnalysis_1_2023.pdf` — Fourier basics, periodogram, Welch
-  - `SpectralAnalysis_2_2023.pdf` — multitaper theory, DPSS tapers
-- **Previous exercises**: Ex1–6 (statistical thinking, data handling, PCA)
-- **Packages**: `numpy`, `scipy`, `matplotlib`, and `lib/wp7_helpers.py`
-  (specifically `wp7_helpers.psd_multitaper`).
-  If `ghostipy` is installed, `wp7_helpers` uses it for faster multitaper
-  computation; otherwise it falls back to `scipy.signal` automatically.
-
-## Tips
-
-- Always detrend your LFP segment before computing the PSD (remove the mean
-  at minimum; `detrend="constant"` in `psd_multitaper`).
-- The number of tapers `K = 2·NW − 1` controls variance reduction:
-  more tapers → lower variance but wider spectral peaks.  Try NW = 2, 3, 4 and
-  compare the resulting spectra.
-- Plot PSD on a log–log or log-linear scale; hippocampal LFP has a 1/f
-  background with oscillatory bumps on top.
-- `wp7_helpers.psd_multitaper(lfp_channel, fs=1250)` returns `(freqs, psd)` —
-  note the order (freqs first).
-- Compare your multitaper PSD with `scipy.signal.welch` on the same data to
-  see the difference in spectral smoothing.
-
-## Also see
-
-- Site page: [exercises/ex7](../../site/docs/exercises/ex7.md)
-- [Submissions](../../../site/docs/submissions.md) — filename convention
-- `lib/wp7_helpers.py` — thin wrappers used in Ex7–9

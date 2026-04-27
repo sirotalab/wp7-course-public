@@ -1,42 +1,22 @@
 # Exercise 5 — Dimensionality Reduction 1 (Spike Waveforms)
 
-## Topic
+**Releases on 2026-05-21.**
 
-Linear dimensionality reduction applied to multichannel spike waveforms.
-You will apply PCA per-channel and in full space, cluster spike types with
-Gaussian Mixture Models, and compare with ICA.
+This directory is a placeholder until the exercise is released. On release day,
+`starter.ipynb` will appear here and this README will be replaced with the full
+exercise brief.
 
-## Files in this directory
+## Topic (preview)
 
-- `ex5.pdf` — exercise prompt (authored by Anton Sirota)
-- `starter.ipynb` — scaffolded Neuromatch-style notebook
-- `README.md` — this file
+Linear dimensionality reduction on multichannel spike waveforms: PCA
+per-channel and in full space, Gaussian-mixture clustering of spike types,
+and comparison with ICA.
 
-## Data
+## On release day
 
-Multichannel spike waveforms from a silicon probe recording:
-
+```bash
+pixi run sync                  # pull the new exercise + data
+pixi run start ex5             # create your working copy (ex5.ipynb)
+# ... edit ex5.ipynb ...
+pixi run submit ex5            # validate + push when done
 ```
-../../data/spectral/spike_waveshapes.mat
-```
-
-Load with `scipy.io.loadmat`. The variable `spk` has shape `(n_spikes, n_channels, n_samples)`.
-
-## Prerequisites
-
-- **Lectures**: Anton — Dimensionality Reduction 1 (Lec 05)
-- **Previous exercises**: Ex1–4 (basic handling of neural data)
-- **Packages**: `numpy`, `scipy`, `matplotlib`, `scikit-learn` (`PCA`, `FastICA`, `GaussianMixture`)
-
-## Tips
-
-- **Centre before PCA** — PCA finds directions of maximum variance around the mean; uncentered data conflates mean and variance.
-- **Eigenspectrum** tells you the intrinsic dimensionality — look for elbows.
-- **BIC** penalises complex models; lowest BIC ≈ best GMM fit without overfitting.
-- **Full-space PCA** (`n_spikes × (n_ch × n_samples)`) captures joint channel+time structure; per-channel PCA loses cross-channel correlations.
-
-## Also see
-
-- Site page: [exercises/ex5](../../../site/exercises/ex5.md)
-- [Submissions](../../../site/submissions.md)
-- Continues in Ex6 (LFP Blind Source Separation)
