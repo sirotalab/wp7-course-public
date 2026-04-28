@@ -283,7 +283,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n", 1)[0])
     parser.add_argument("exercise", help="e.g. 'ex1', '1', 'ex5-dimred-1'")
     parser.add_argument("--skip-run", action="store_true",
-                        help="Skip end-to-end notebook execution (static checks only)")
+                        help="Lint mode: run only the static checks (no end-to-end execution)")
     parser.add_argument("--full-run", action="store_true",
                         help="(deprecated; execution is on by default)")
     parser.add_argument("--no-email", action="store_true",
