@@ -87,5 +87,5 @@ description = "Register this pixi env as a Jupyter kernel named 'wp7'"
 # Sync — the daily-loop pull task
 # -------------------------------
 [tasks.sync]
-cmd = "datalad update --merge origin && datalad get ."
+cmd = "datalad update --merge -s origin && datalad get ."
 description = "Pull TA updates (new exercises, bugfixes, released solutions) + fetch any new annexed data"
