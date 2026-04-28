@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Open VS Code Remote-SSH to your HPC workspace.
 
-Runs on the laptop; wraps ``code --remote ssh-remote+<host> /storage2/arash/teaching/wp7/<slug>``.
+Runs on the laptop; wraps ``code --remote ssh-remote+<host> /storage2/wp7/<slug>/wp7-course-materials``.
 Reads your identity from ``~/.wp7/config.toml`` (created by ``pixi run setup-ssh``).
 
 Refuses to run on the HPC itself (no point).
