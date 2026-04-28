@@ -53,7 +53,12 @@ cmd = "python scripts/setup_ssh.py"
 description = "First-time SSH setup: keys, ~/.ssh/config, copy to HPC (laptop only)"
 
 [tasks.check-connection]
-cmd = "ssh -o ConnectTimeout=5 -o BatchMode=yes gamma3 echo ok"
+# `env -u LD_LIBRARY_PATH` strips the pixi env's library search path so
+# the system /usr/bin/ssh links against the system libssl it was built
+# for. Without this, conda-forge's libssl (3.0.x) gets loaded into a
+# host ssh built against 3.6.x and curl prints
+# "OpenSSL version mismatch. Built against 30000020, you have 30600020".
+cmd = "env -u LD_LIBRARY_PATH ssh -o ConnectTimeout=5 -o BatchMode=yes gamma3 echo ok"
 description = "Verify passwordless SSH to gamma3 works"
 
 # Daily use (laptop → HPC)
